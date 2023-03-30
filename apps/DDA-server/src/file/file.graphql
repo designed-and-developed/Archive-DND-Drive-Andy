@@ -1,0 +1,24 @@
+type File {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateFileInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateFileInput {
+  id: Int!
+}
+
+type Query {
+  files: [File]!
+  file(id: Int!): File
+}
+
+type Mutation {
+  createFile(createFileInput: CreateFileInput!): File!
+  updateFile(updateFileInput: UpdateFileInput!): File!
+  removeFile(id: Int!): File
+}

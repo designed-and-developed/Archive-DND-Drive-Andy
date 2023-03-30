@@ -1,0 +1,24 @@
+type Tag {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateTagInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateTagInput {
+  id: Int!
+}
+
+type Query {
+  tags: [Tag]!
+  tag(id: Int!): Tag
+}
+
+type Mutation {
+  createTag(createTagInput: CreateTagInput!): Tag!
+  updateTag(updateTagInput: UpdateTagInput!): Tag!
+  removeTag(id: Int!): Tag
+}

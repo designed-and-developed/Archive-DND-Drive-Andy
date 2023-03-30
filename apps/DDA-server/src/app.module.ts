@@ -8,6 +8,8 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { join } from 'path';
 import { UserModule } from './user/user.module';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import { FileModule } from './file/file.module';
+import { TagModule } from './tag/tag.module';
 
 dotenv.config();
 
@@ -34,6 +36,8 @@ dotenv.config();
       }, 
       cors: true
     }),
+    FileModule,
+    TagModule,
   
   ],
   controllers: [AppController],
