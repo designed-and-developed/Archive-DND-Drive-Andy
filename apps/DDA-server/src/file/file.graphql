@@ -1,11 +1,20 @@
 type File {
-  # Example field (placeholder)
-  exampleField: Int
+  id: Int!
+  name: String!
+  userId: Int!
+  createdAt: Date
+  awsUrl: String
+  downloadCount: Int
+  deleted: Bool
 }
 
 input CreateFileInput {
-  # Example field (placeholder)
-  exampleField: Int
+  name: String!
+  userId: Int!
+  createdAt: Date
+  awsUrl: String
+  downloadCount: Int
+  deleted: Bool
 }
 
 input UpdateFileInput {

@@ -1,11 +1,11 @@
 type Tag {
-  # Example field (placeholder)
-  exampleField: Int
+  id: Int!
+  name: String!
 }
 
 input CreateTagInput {
-  # Example field (placeholder)
-  exampleField: Int
+  id: Int!
+  name: String!
 }
 
 input UpdateTagInput {
