@@ -11,10 +11,10 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { FileModule } from './file/file.module';
 import { TagModule } from './tag/tag.module';
 import { FileTagsModule } from './file_tags/file_tags.module';
-import { UserEntity } from './user/entities/user.entity';
-import { TagEntity } from './tag/entities/tag.entity';
-import { FileEntity } from './file/entities/file.entity';
-import { FileTagEntity } from './file_tags/entities/file_tag.entity';
+import { UserEntity } from './user/user.entity';
+import { TagEntity } from './tag/tag.entity';
+import { FileEntity } from './file/file.entity';
+import { FileTagEntity } from './file_tags/file_tag.entity';
 
 dotenv.config();
 
@@ -38,13 +38,12 @@ dotenv.config();
       typePaths: ['./**/*.graphql'],
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
-      }, 
-      cors: true
+      },
+      cors: true,
     }),
     FileModule,
     TagModule,
     FileTagsModule,
-  
   ],
   controllers: [AppController],
   providers: [AppService],
