@@ -1,0 +1,17 @@
+type User {
+  # Example field (placeholder)
+  id: Int!
+  username: String!
+  password: String!
+}
+
+input CreateUserInput {
+  username: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  id: Int!
+}
+
+

@@ -1,0 +1,24 @@
+type File {
+  id: Int!
+  name: String!
+  userId: Int!
+  awsUrl: String
+  downloadCount: Int
+}
+
+input CreateFileInput {
+  name: String!
+  userId: Int!
+  awsUrl: String
+  downloadCount: Int
+}
+
+input UpdateFileInput {
+  id: Int!
+}
+
+type Query {
+  files: [File]!
+  file(id: Int!): File
+}
+

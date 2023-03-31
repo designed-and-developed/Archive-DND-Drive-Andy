@@ -1,0 +1,15 @@
+type Tag {
+  id: Int!
+  name: String!
+}
+
+input CreateTagInput {
+  id: Int!
+  name: String!
+}
+
+input UpdateTagInput {
+  id: Int!
+}
+
+
