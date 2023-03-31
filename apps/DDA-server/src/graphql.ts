@@ -9,15 +9,27 @@
 /* eslint-disable */
 
 export interface CreateFileInput {
-    exampleField?: Nullable<number>;
+    name: string;
+    userId: number;
+    awsUrl?: Nullable<string>;
+    downloadCount?: Nullable<number>;
 }
 
 export interface UpdateFileInput {
     id: number;
 }
 
-export interface CreateTagInput {
+export interface CreateFileTagInput {
     exampleField?: Nullable<number>;
+}
+
+export interface UpdateFileTagInput {
+    id: number;
+}
+
+export interface CreateTagInput {
+    id: number;
+    name: string;
 }
 
 export interface UpdateTagInput {
@@ -25,7 +37,8 @@ export interface UpdateTagInput {
 }
 
 export interface CreateUserInput {
-    exampleField?: Nullable<number>;
+    username: string;
+    password: string;
 }
 
 export interface UpdateUserInput {
@@ -33,36 +46,31 @@ export interface UpdateUserInput {
 }
 
 export interface File {
-    exampleField?: Nullable<number>;
+    id: number;
+    name: string;
+    userId: number;
+    awsUrl?: Nullable<string>;
+    downloadCount?: Nullable<number>;
 }
 
 export interface IQuery {
     files(): Nullable<File>[] | Promise<Nullable<File>[]>;
     file(id: number): Nullable<File> | Promise<Nullable<File>>;
-    tags(): Nullable<Tag>[] | Promise<Nullable<Tag>[]>;
-    tag(id: number): Nullable<Tag> | Promise<Nullable<Tag>>;
-    users(): Nullable<User>[] | Promise<Nullable<User>[]>;
-    user(id: number): Nullable<User> | Promise<Nullable<User>>;
 }
 
-export interface IMutation {
-    createFile(createFileInput: CreateFileInput): File | Promise<File>;
-    updateFile(updateFileInput: UpdateFileInput): File | Promise<File>;
-    removeFile(id: number): Nullable<File> | Promise<Nullable<File>>;
-    createTag(createTagInput: CreateTagInput): Tag | Promise<Tag>;
-    updateTag(updateTagInput: UpdateTagInput): Tag | Promise<Tag>;
-    removeTag(id: number): Nullable<Tag> | Promise<Nullable<Tag>>;
-    createUser(createUserInput: CreateUserInput): Nullable<string> | Promise<Nullable<string>>;
-    updateUser(updateUserInput: UpdateUserInput): User | Promise<User>;
-    removeUser(id: number): Nullable<string> | Promise<Nullable<string>>;
+export interface FileTag {
+    exampleField?: Nullable<number>;
 }
 
 export interface Tag {
-    exampleField?: Nullable<number>;
+    id: number;
+    name: string;
 }
 
 export interface User {
-    exampleField?: Nullable<number>;
+    id: number;
+    username: string;
+    password: string;
 }
 
 type Nullable<T> = T | null;

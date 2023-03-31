@@ -10,6 +10,11 @@ import { UserModule } from './user/user.module';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { FileModule } from './file/file.module';
 import { TagModule } from './tag/tag.module';
+import { FileTagsModule } from './file_tags/file_tags.module';
+import { UserEntity } from './user/entities/user.entity';
+import { TagEntity } from './tag/entities/tag.entity';
+import { FileEntity } from './file/entities/file.entity';
+import { FileTagEntity } from './file_tags/entities/file_tag.entity';
 
 dotenv.config();
 
@@ -22,7 +27,7 @@ dotenv.config();
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: 'dndDrive',
-      entities: [],
+      entities: [UserEntity, FileEntity, TagEntity, FileTagEntity],
       synchronize: true,
     }),
     UserModule,
@@ -38,6 +43,7 @@ dotenv.config();
     }),
     FileModule,
     TagModule,
+    FileTagsModule,
   
   ],
   controllers: [AppController],

@@ -2,19 +2,15 @@ type File {
   id: Int!
   name: String!
   userId: Int!
-  createdAt: Date
   awsUrl: String
   downloadCount: Int
-  deleted: Bool
 }
 
 input CreateFileInput {
   name: String!
   userId: Int!
-  createdAt: Date
   awsUrl: String
   downloadCount: Int
-  deleted: Bool
 }
 
 input UpdateFileInput {
@@ -26,8 +22,3 @@ type Query {
   file(id: Int!): File
 }
 
-type Mutation {
-  createFile(createFileInput: CreateFileInput!): File!
-  updateFile(updateFileInput: UpdateFileInput!): File!
-  removeFile(id: Int!): File
-}

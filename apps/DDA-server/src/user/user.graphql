@@ -14,13 +14,4 @@ input UpdateUserInput {
   id: Int!
 }
 
-type Query {
-  users: [User]!
-  user(id: Int!): User
-}
 
-type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User
-}

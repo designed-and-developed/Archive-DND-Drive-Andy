@@ -1,8 +1,11 @@
-import { User } from "src/user/entities/user.entity";
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { FileTagEntity } from "src/file_tags/entities/file_tag.entity";
+import { FileTag } from "src/graphql";
+import { TagEntity } from "src/tag/entities/tag.entity";
+import { UserEntity } from "src/user/entities/user.entity";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, ManyToMany, JoinTable, CreateDateColumn } from "typeorm";
 
-@Entity()
-export class File {
+@Entity("file")
+export class FileEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -12,7 +15,10 @@ export class File {
     @Column()
     userId: number;
 
-    @Column({ default: () => "CURRENT_TIMESTAMP" })
+    @CreateDateColumn({
+        type: "timestamp with time zone",
+        default: () => "NOW()"
+    })
     createdAt: Date;
 
     @Column()
@@ -24,7 +30,12 @@ export class File {
     @Column({ default: false })
     deleted: boolean;
 
-    @ManyToOne(() => User, user => user.files)
-    user: User;
+    @ManyToOne(() => UserEntity, user => user.files)
+    user: UserEntity;
+
+    @OneToMany(() => FileTagEntity, fileTag => fileTag.file)
+    fileTags: FileTagEntity;
+
+
 }
 

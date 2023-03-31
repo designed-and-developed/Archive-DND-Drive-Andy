@@ -1,8 +1,8 @@
-import { File } from 'src/file/entities/file.entity';
+import { FileEntity } from 'src/file/entities/file.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
-@Entity()
-export class User {
+@Entity("user")
+export class UserEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -12,6 +12,6 @@ export class User {
     @Column()
     password: string;
 
-    @OneToMany(() => File, file => file.user)
-    files: File[];
+    @OneToMany(() => FileEntity, file => file.user)
+    files: FileEntity[];
 }
