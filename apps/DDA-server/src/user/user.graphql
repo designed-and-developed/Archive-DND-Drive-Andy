@@ -4,9 +4,13 @@ type User {
   password: String!
 }
 
-type Mutation {
-  createUser(username: String!, password: String!): User!
+input CreateUserInput {
+  username: String!
+  password: String!
+}
 
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
 }
 
 type Query {

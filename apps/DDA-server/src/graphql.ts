@@ -36,6 +36,11 @@ export interface UpdateTagInput {
     id: number;
 }
 
+export interface CreateUserInput {
+    username: string;
+    password: string;
+}
+
 export interface File {
     id: number;
     name: string;
@@ -67,7 +72,7 @@ export interface User {
 }
 
 export interface IMutation {
-    createUser(username: string, password: string): User | Promise<User>;
+    createUser(createUserInput: CreateUserInput): User | Promise<User>;
 }
 
 type Nullable<T> = T | null;
