@@ -30,7 +30,6 @@ dotenv.config();
       entities: [UserEntity, FileEntity, TagEntity, FileTagEntity],
       synchronize: true,
     }),
-    UserModule,
     GraphQLModule.forRoot({
       driver: ApolloDriver,
       playground: false,
@@ -41,6 +40,7 @@ dotenv.config();
       },
       cors: true,
     }),
+    UserModule,
     FileModule,
     TagModule,
     FileTagsModule,

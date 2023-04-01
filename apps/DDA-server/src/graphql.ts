@@ -36,15 +36,6 @@ export interface UpdateTagInput {
     id: number;
 }
 
-export interface CreateUserInput {
-    username: string;
-    password: string;
-}
-
-export interface UpdateUserInput {
-    id: number;
-}
-
 export interface File {
     id: number;
     name: string;
@@ -56,6 +47,8 @@ export interface File {
 export interface IQuery {
     files(): Nullable<File>[] | Promise<Nullable<File>[]>;
     file(id: number): Nullable<File> | Promise<Nullable<File>>;
+    users(): Nullable<User>[] | Promise<Nullable<User>[]>;
+    user(id: number): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export interface FileTag {
@@ -71,6 +64,10 @@ export interface User {
     id: number;
     username: string;
     password: string;
+}
+
+export interface IMutation {
+    createUser(username: string, password: string): User | Promise<User>;
 }
 
 type Nullable<T> = T | null;
