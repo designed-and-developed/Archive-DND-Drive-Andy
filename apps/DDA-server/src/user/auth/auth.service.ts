@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../user.service';
-import { UserEntity } from '../user.entity';
-import * as bcrypt from 'bcryptjs';
+import { Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { UserService } from "../user.service";
+import { UserEntity } from "../user.entity";
+import * as bcrypt from "bcryptjs";
 
 @Injectable()
 export class AuthService {
@@ -29,6 +29,6 @@ export class AuthService {
 
   async login(user: UserEntity) {
     const payload = { username: user.username, sub: user.id };
-    return this.jwtService.sign(payload)
+    return this.jwtService.sign(payload);
   }
 }

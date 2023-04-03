@@ -1,9 +1,7 @@
-import { Resolver } from '@nestjs/graphql';
-import { FileService } from './file.service';
+import { Resolver } from "@nestjs/graphql";
+import { FileService } from "./file.service";
 
-
-@Resolver('File')
+@Resolver("File")
 export class FileResolver {
   constructor(private readonly fileService: FileService) {}
-
 }

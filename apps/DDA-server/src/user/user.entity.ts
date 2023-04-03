@@ -1,10 +1,16 @@
-import { FileEntity } from 'src/file/file.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BeforeInsert } from 'typeorm';
-import * as bcrypt from 'bcryptjs'
+import { FileEntity } from "src/file/file.entity";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  BeforeInsert,
+} from "typeorm";
+import * as bcrypt from "bcryptjs";
 
-@Entity('user')
+@Entity("user")
 export class UserEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column()
@@ -15,7 +21,7 @@ export class UserEntity {
 
   @BeforeInsert()
   async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 8)
+    this.password = await bcrypt.hash(this.password, 8);
   }
 
   @OneToMany(() => FileEntity, (file) => file.user)
