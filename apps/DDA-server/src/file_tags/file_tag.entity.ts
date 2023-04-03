@@ -4,8 +4,8 @@ import { Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity('file_tag')
 export class FileTagEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne(() => FileEntity, (file) => file.fileTags)
   file: FileEntity;

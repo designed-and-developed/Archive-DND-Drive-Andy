@@ -10,21 +10,13 @@
 
 export interface CreateFileInput {
     name: string;
-    userId: number;
+    userId: string;
     awsUrl?: Nullable<string>;
     downloadCount?: Nullable<number>;
 }
 
 export interface UpdateFileInput {
-    id: number;
-}
-
-export interface CreateFileTagInput {
-    exampleField?: Nullable<number>;
-}
-
-export interface UpdateFileTagInput {
-    id: number;
+    id: string;
 }
 
 export interface CreateTagInput {
@@ -42,31 +34,31 @@ export interface UserInput {
 }
 
 export interface File {
-    id: number;
+    id: string;
     name: string;
-    userId: number;
+    userId: string;
     awsUrl?: Nullable<string>;
     downloadCount?: Nullable<number>;
 }
 
 export interface IQuery {
     files(): Nullable<File>[] | Promise<Nullable<File>[]>;
-    file(id: number): Nullable<File> | Promise<Nullable<File>>;
+    file(id: string): Nullable<File> | Promise<Nullable<File>>;
     users(): Nullable<User>[] | Promise<Nullable<User>[]>;
-    user(id: number): Nullable<User> | Promise<Nullable<User>>;
+    user(id: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export interface FileTag {
-    exampleField?: Nullable<number>;
+    id: string;
 }
 
 export interface Tag {
-    id: number;
+    id: string;
     name: string;
 }
 
 export interface User {
-    id: number;
+    id: string;
     username: string;
     password: string;
 }

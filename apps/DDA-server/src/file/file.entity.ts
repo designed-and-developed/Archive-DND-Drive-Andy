@@ -11,8 +11,8 @@ import {
 
 @Entity('file')
 export class FileEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;
