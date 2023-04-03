@@ -1,5 +1,5 @@
-import { TagEntity } from "src/tag/tag.entity";
-import { FileEntity } from "src/file/file.entity";
+import { TagEntity } from "../tag/tag.entity";
+import { FileEntity } from "../file/file.entity";
 import { Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 
 @Entity("file_tag")

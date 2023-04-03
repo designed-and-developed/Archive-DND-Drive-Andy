@@ -1,9 +1,8 @@
 import { ConflictException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { UserInput } from "./user.input";
 import { UserEntity } from "./user.entity";
-import { SuccessResponse } from "../graphql";
+import { SuccessResponse, UserInput } from "../graphql";
 
 @Injectable()
 export class UserService {

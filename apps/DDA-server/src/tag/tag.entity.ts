@@ -1,4 +1,4 @@
-import { FileTagEntity } from "src/file_tags/file_tag.entity";
+import { FileTagEntity } from "../file_tags/file_tag.entity";
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 
 @Entity("tag")
