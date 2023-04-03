@@ -1,15 +1,7 @@
 type FileTag {
   # Example field (placeholder)
-  exampleField: Int
+  id: String!
 }
 
-input CreateFileTagInput {
-  # Example field (placeholder)
-  exampleField: Int
-}
-
-input UpdateFileTagInput {
-  id: Int!
-}
 
 

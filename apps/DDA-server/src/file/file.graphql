@@ -1,24 +1,24 @@
 type File {
-  id: Int!
+  id: String!
   name: String!
-  userId: Int!
+  userId: String!
   awsUrl: String
   downloadCount: Int
 }
 
 input CreateFileInput {
   name: String!
-  userId: Int!
+  userId: String!
   awsUrl: String
   downloadCount: Int
 }
 
 input UpdateFileInput {
-  id: Int!
+  id: String!
 }
 
 type Query {
   files: [File]!
-  file(id: Int!): File
+  file(id: String!): File
 }
 

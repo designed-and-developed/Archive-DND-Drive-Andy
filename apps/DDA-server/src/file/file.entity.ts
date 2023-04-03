@@ -1,5 +1,5 @@
-import { FileTagEntity } from 'src/file_tags/file_tag.entity';
-import { UserEntity } from 'src/user/user.entity';
+import { FileTagEntity } from "../file_tags/file_tag.entity";
+import { UserEntity } from "../user/user.entity";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,12 +7,12 @@ import {
   ManyToOne,
   OneToMany,
   CreateDateColumn,
-} from 'typeorm';
+} from "typeorm";
 
-@Entity('file')
+@Entity("file")
 export class FileEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   name: string;
@@ -21,8 +21,8 @@ export class FileEntity {
   userId: number;
 
   @CreateDateColumn({
-    type: 'timestamp with time zone',
-    default: () => 'NOW()',
+    type: "timestamp with time zone",
+    default: () => "NOW()",
   })
   createdAt: Date;
 
