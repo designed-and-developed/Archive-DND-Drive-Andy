@@ -65,11 +65,15 @@ export interface User {
 
 export interface LoginResponse {
     access_token: string;
-    user: User;
+    username: string;
+}
+
+export interface SuccessResponse {
+    success: boolean;
 }
 
 export interface IMutation {
-    createUser(userInput: UserInput): User | Promise<User>;
+    createUser(userInput: UserInput): SuccessResponse | Promise<SuccessResponse>;
     login(userInput?: Nullable<UserInput>): LoginResponse | Promise<LoginResponse>;
 }
 

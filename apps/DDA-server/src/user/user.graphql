@@ -11,11 +11,15 @@ input UserInput {
 
 type LoginResponse {
   access_token: String!
-  user: User!
+  username: String!
+}
+
+type SuccessResponse {
+  success: Boolean!
 }
 
 type Mutation {
-  createUser(userInput: UserInput!): User!
+  createUser(userInput: UserInput!): SuccessResponse!
   login(userInput: UserInput): LoginResponse!
 }
 

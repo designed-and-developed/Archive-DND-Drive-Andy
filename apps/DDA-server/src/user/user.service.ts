@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { UserInput } from "./user.input";
 import { UserEntity } from "./user.entity";
+import { SuccessResponse } from "../graphql";
 
 @Injectable()
 export class UserService {
@@ -11,7 +12,7 @@ export class UserService {
     private userRepository: Repository<UserEntity>,
   ) {}
 
-  async createUser(userInput: UserInput): Promise<UserEntity> {
+  async createUser(userInput: UserInput): Promise<SuccessResponse> {
     if (!userInput || !userInput.username || !userInput.password) {
       throw new Error("Invalid userInput");
     }
@@ -20,7 +21,11 @@ export class UserService {
     user.username = userInput.username;
     user.password = userInput.password;
 
-    return await this.userRepository.save(user);
+    await this.userRepository.save(user);
+
+    const response:SuccessResponse = { success: true };
+
+    return response;
   }
 
   async findByUsername(username: string): Promise<UserEntity> {
