@@ -21,6 +21,6 @@ import { UserService } from "../user.service";
     JwtStrategy,
     UserService
   ],
-  exports: [AuthResolver, AuthService, JwtStrategy],
+  exports: [AuthResolver, AuthService, JwtStrategy, UserService],
 })
 export class AuthModule {}

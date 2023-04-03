@@ -63,14 +63,14 @@ export interface User {
     password: string;
 }
 
-export interface AuthPayload {
-    token: string;
+export interface LoginResponse {
+    access_token: string;
     user: User;
 }
 
 export interface IMutation {
     createUser(userInput: UserInput): User | Promise<User>;
-    login(userInput?: Nullable<UserInput>): string | Promise<string>;
+    login(userInput?: Nullable<UserInput>): LoginResponse | Promise<LoginResponse>;
 }
 
 type Nullable<T> = T | null;

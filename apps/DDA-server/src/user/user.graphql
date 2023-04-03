@@ -9,14 +9,14 @@ input UserInput {
   password: String!
 }
 
-type AuthPayload {
-  token: String!
+type LoginResponse {
+  access_token: String!
   user: User!
 }
 
 type Mutation {
   createUser(userInput: UserInput!): User!
-  login(userInput: UserInput): String!
+  login(userInput: UserInput): LoginResponse!
 }
 
 type Query {
