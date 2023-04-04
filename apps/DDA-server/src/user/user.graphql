@@ -24,7 +24,7 @@ type Mutation {
 }
 
 type Query {
-  users: [User]!
+  findAllUser: [User]!
   user(id: ID!): User
 }
 

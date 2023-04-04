@@ -16,23 +16,32 @@ export class UserService {
       throw new Error("Invalid userInput");
     }
 
-    const existingUser = await this.userRepository.findOne({ where: { username: userInput.username } });
+    const response: SuccessResponse = { success: true };
+
+    const existingUser = await this.userRepository.findOne({
+      where: { username: userInput.username },
+    });
+
     if (existingUser) {
-      throw new ConflictException('Username already in use');
+      response.success = false;
+      return response
+
+    } else {
+      const user = new UserEntity();
+      user.username = userInput.username;
+      user.password = userInput.password;
+
+      await this.userRepository.save(user);
     }
-
-    const user = new UserEntity();
-    user.username = userInput.username;
-    user.password = userInput.password;
-
-    await this.userRepository.save(user);
-
-    const response:SuccessResponse = { success: true };
 
     return response;
   }
 
   async findByUsername(username: string): Promise<UserEntity> {
     return this.userRepository.findOne({ where: { username: username } });
+  }
+
+  async findAll(): Promise<UserEntity[]> {
+    return this.userRepository.find();
   }
 }

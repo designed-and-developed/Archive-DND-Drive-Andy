@@ -44,7 +44,7 @@ export interface File {
 export interface IQuery {
     files(): Nullable<File>[] | Promise<Nullable<File>[]>;
     file(id: string): Nullable<File> | Promise<Nullable<File>>;
-    users(): Nullable<User>[] | Promise<Nullable<User>[]>;
+    findAllUser(): Nullable<User>[] | Promise<Nullable<User>[]>;
     user(id: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
