@@ -114,7 +114,7 @@ const AuthForm = () => {
             size="lg"
             label="Username"
             name="username"
-            placeholder="you@mantine.dev"
+            placeholder="cool_user_name"
             onChange={(e) => setUsername(e.target.value)}
             required
           />
@@ -123,7 +123,7 @@ const AuthForm = () => {
             pt={10}
             label="Password"
             name="password"
-            placeholder="Your password"
+            placeholder="your password"
             onChange={(e) => setPassword(e.target.value)}
             required
             mt="md"

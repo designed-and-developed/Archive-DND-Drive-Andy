@@ -1,11 +1,10 @@
-import { useState } from "react"
-import AuthForm from "./Components/Pages/AuthForm"
+import AuthPage from "./Components/Pages/AuthPage"
 import AllUsers from "./Components/Pages/Test"
 
 function App() {
   return (
     <div className="App">
-      <AuthForm />
+      <AuthPage />
     </div>
   )
 }
