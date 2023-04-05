@@ -1,9 +1,15 @@
-import React from 'react'
+import { useEffect } from "react";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!Cookies.get("username")) navigate("/");
+  }, []);
+
+  return <h1>Dashboard</h1>;
+};
 
 export default Dashboard;
