@@ -15,11 +15,14 @@ import {
   useLoginMutation,
 } from "../../generated/graphql";
 import { useToggle } from "@mantine/hooks";
+import { useNavigate } from "react-router-dom";
+
 
 const AuthForm = () => {
   const [type, toggle] = useToggle(["Login", "Register"]);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
 
   const [
     executeRegisterMutation,
@@ -80,11 +83,8 @@ const AuthForm = () => {
         color: "red",
       });
     } else if (loginData?.login.access_token) {
-      notifications.show({
-        title: "Alert",
-        message: "Login successful.",
-        color: "green",
-      });
+      // Logs in the user, redirects to the dashboard
+      navigate("/dashboard");
     }
   }, [loginData, loginError]);
 
