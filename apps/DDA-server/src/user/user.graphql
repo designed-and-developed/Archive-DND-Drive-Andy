@@ -20,7 +20,7 @@ type SuccessResponse {
 
 type Mutation {
   createUser(userInput: UserInput!): SuccessResponse!
-  login(userInput: UserInput): LoginResponse!
+  login(userInput: UserInput): LoginResponse
 }
 
 type Query {

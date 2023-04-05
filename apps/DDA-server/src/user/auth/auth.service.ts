@@ -12,7 +12,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<UserEntity> {
+  async validateUser(username: string, password: string): Promise<UserEntity | null> {
     const user = await this.userService.findByUsername(username);
 
     if (!user) {
@@ -29,17 +29,19 @@ export class AuthService {
   }
 
   async login(userInput: UserInput) {
-    const { username, password } = userInput;
-    const user = await this.validateUser(username, password);
+    try {
+      const { username, password } = userInput;
+      const user = await this.validateUser(username, password);
 
-    if (!user) {
-      throw new Error("Invalid credentials");
-    }
+      if (!user) {
+        return null;
+      }
 
-    const payload = { username: user.username, sub: user.id };
-    return {
-      access_token: this.jwtService.sign(payload),
-      username,
-    };
+      const payload = { username: user.username, sub: user.id };
+      return {
+        access_token: this.jwtService.sign(payload),
+        username,
+      };
+    } catch (error) {}
   }
 }

@@ -74,7 +74,7 @@ export interface SuccessResponse {
 
 export interface IMutation {
     createUser(userInput: UserInput): SuccessResponse | Promise<SuccessResponse>;
-    login(userInput?: Nullable<UserInput>): LoginResponse | Promise<LoginResponse>;
+    login(userInput?: Nullable<UserInput>): Nullable<LoginResponse> | Promise<Nullable<LoginResponse>>;
 }
 
 type Nullable<T> = T | null;

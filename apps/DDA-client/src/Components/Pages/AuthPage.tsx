@@ -72,11 +72,12 @@ const AuthForm = () => {
         message: "User successfully registered!",
         color: "green",
       });
+      toggle()
     }
   }, [registerData]);
 
   useEffect(() => {
-    if (loginError && !loginData?.login.access_token) {
+    if (loginData && loginData?.login == null) {
       notifications.show({
         title: "Alert",
         message: "Credentials incorrect. Please check username or password.",
@@ -129,7 +130,9 @@ const AuthForm = () => {
             mt="md"
           />
           <Button fullWidth mt={50} size="lg" type="submit">
-            Sign in
+          {type === "Register"
+          ? "Signup"
+          : "Login"}
           </Button>
         </form>
       </Paper>
