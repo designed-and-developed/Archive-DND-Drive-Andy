@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Anchor, Text, Container } from "@mantine/core";
+import { Container } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import {
   useCreateUserMutation,
@@ -8,6 +8,7 @@ import {
 import { useToggle } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
 import { AuthInput, AuthTitle } from "../Atom";
+import Cookies from "js-cookie";
 
 const AuthForm = () => {
   const [username, setUsername] = useState<string>("");
@@ -69,6 +70,7 @@ const AuthForm = () => {
   }, [registerData]);
 
   useEffect(() => {
+    if (Cookies.get("username")) navigate("/dashboard");
     if (loginData && loginData?.login == null) {
       notifications.show({
         title: "Alert",
@@ -76,6 +78,8 @@ const AuthForm = () => {
         color: "red",
       });
     } else if (loginData?.login.access_token) {
+      // Creates a login cookie
+      Cookies.set("username", username, { expires: 7 });
       // Logs in the user, redirects to the dashboard
       navigate("/dashboard");
     }
@@ -83,7 +87,7 @@ const AuthForm = () => {
 
   return (
     <Container size={600} my={300}>
-      <AuthTitle type={type} toggle={toggle}/>
+      <AuthTitle type={type} toggle={toggle} />
       <AuthInput
         handleSubmit={handleSubmit}
         setUsername={setUsername}
