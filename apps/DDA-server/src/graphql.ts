@@ -9,11 +9,9 @@
 /* eslint-disable */
 
 export interface CreateFileInput {
-    id: string;
     fileName: string;
     ownerName: string;
     userId: string;
-    createdAt: DateTime;
     awsUrl?: Nullable<string>;
     downloadCount?: Nullable<number>;
 }
@@ -42,6 +40,16 @@ export interface File {
     downloadCount?: Nullable<number>;
 }
 
+export interface SuccessResponse {
+    success: boolean;
+}
+
+export interface IMutation {
+    createFile(createFileInput: CreateFileInput): SuccessResponse | Promise<SuccessResponse>;
+    createUser(userInput: UserInput): SuccessResponse | Promise<SuccessResponse>;
+    login(userInput?: Nullable<UserInput>): Nullable<LoginResponse> | Promise<Nullable<LoginResponse>>;
+}
+
 export interface IQuery {
     findAllFile(): Nullable<File>[] | Promise<Nullable<File>[]>;
     file(id: string): Nullable<File> | Promise<Nullable<File>>;
@@ -67,15 +75,6 @@ export interface User {
 export interface LoginResponse {
     access_token: string;
     username: string;
-}
-
-export interface SuccessResponse {
-    success: boolean;
-}
-
-export interface IMutation {
-    createUser(userInput: UserInput): SuccessResponse | Promise<SuccessResponse>;
-    login(userInput?: Nullable<UserInput>): Nullable<LoginResponse> | Promise<Nullable<LoginResponse>>;
 }
 
 export type DateTime = any;

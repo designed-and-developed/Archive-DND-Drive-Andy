@@ -11,13 +11,19 @@ type File {
 }
 
 input CreateFileInput {
-  id: String!
   fileName: String!
   ownerName: String!
   userId: String!
-  createdAt: Date!
   awsUrl: String
   downloadCount: Int
+}
+
+type SuccessResponse {
+  success: Boolean!
+}
+
+type Mutation {
+  createFile(createFileInput: CreateFileInput!): SuccessResponse!
 }
 
 type Query {

@@ -21,7 +21,7 @@ export class FileEntity {
   ownerName: string;
 
   @Column()
-  userId: number;
+  userId: string;
 
   @CreateDateColumn({
     type: "timestamp with time zone",
