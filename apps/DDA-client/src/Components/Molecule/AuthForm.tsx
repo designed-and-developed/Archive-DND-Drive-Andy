@@ -7,8 +7,7 @@ import {
 } from "../../generated/graphql";
 import { useToggle } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
-import AuthTitle from "../Atom/AuthTitle";
-import AuthInput from "../Atom/AuthInput";
+import { AuthInput, AuthTitle } from "../Atom";
 
 const AuthForm = () => {
   const [username, setUsername] = useState<string>("");

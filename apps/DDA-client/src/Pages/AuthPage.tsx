@@ -1,4 +1,4 @@
-import AuthForm from "../Components/Molecule/AuthForm";
+import { AuthForm } from "../Components/Molecule";
 
 const AuthPage = () => {
   return (
