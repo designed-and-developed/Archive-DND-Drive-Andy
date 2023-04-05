@@ -1,24 +1,27 @@
+scalar Date
+
 type File {
   id: String!
-  name: String!
+  fileName: String!
+  ownerName: String!
   userId: String!
+  createdAt: Date!
   awsUrl: String
   downloadCount: Int
 }
 
 input CreateFileInput {
-  name: String!
+  id: String!
+  fileName: String!
+  ownerName: String!
   userId: String!
+  createdAt: Date!
   awsUrl: String
   downloadCount: Int
 }
 
-input UpdateFileInput {
-  id: String!
-}
-
 type Query {
-  files: [File]!
-  file(id: String!): File
+  findAllFile: [File]!
+  file(id: ID!): File
 }
 

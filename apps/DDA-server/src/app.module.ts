@@ -3,7 +3,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import * as dotenv from "dotenv";
-import { GraphQLModule } from "@nestjs/graphql";
+import { GraphQLISODateTime, GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver } from "@nestjs/apollo";
 import { join } from "path";
 import { UserModule } from "./user/user.module";
@@ -15,7 +15,7 @@ import { UserEntity } from "./user/user.entity";
 import { TagEntity } from "./tag/tag.entity";
 import { FileEntity } from "./file/file.entity";
 import { FileTagEntity } from "./file_tags/file_tag.entity";
-import { AuthModule } from './user/auth/auth.module';
+import { AuthModule } from "./user/auth/auth.module";
 
 dotenv.config();
 
@@ -39,6 +39,7 @@ dotenv.config();
       definitions: {
         path: join(process.cwd(), "src/graphql.ts"),
       },
+      resolvers: { Date: GraphQLISODateTime },
       cors: true,
     }),
     UserModule,

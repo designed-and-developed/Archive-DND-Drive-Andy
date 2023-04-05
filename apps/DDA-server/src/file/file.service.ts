@@ -1,16 +1,17 @@
 import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { FileEntity } from "./file.entity";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class FileService {
-  findAll() {
-    return `This action returns all file`;
-  }
+  
+  constructor(
+    @InjectRepository(FileEntity)
+    private fileRepository: Repository<FileEntity>,
+  ) {}
 
-  findOne(id: number) {
-    return `This action returns a #${id} file`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} file`;
+  async findAllFile(): Promise<FileEntity[]> {
+    return this.fileRepository.find();
   }
 }

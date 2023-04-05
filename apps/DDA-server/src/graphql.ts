@@ -9,14 +9,13 @@
 /* eslint-disable */
 
 export interface CreateFileInput {
-    name: string;
+    id: string;
+    fileName: string;
+    ownerName: string;
     userId: string;
+    createdAt: DateTime;
     awsUrl?: Nullable<string>;
     downloadCount?: Nullable<number>;
-}
-
-export interface UpdateFileInput {
-    id: string;
 }
 
 export interface CreateTagInput {
@@ -35,14 +34,16 @@ export interface UserInput {
 
 export interface File {
     id: string;
-    name: string;
+    fileName: string;
+    ownerName: string;
     userId: string;
+    createdAt: DateTime;
     awsUrl?: Nullable<string>;
     downloadCount?: Nullable<number>;
 }
 
 export interface IQuery {
-    files(): Nullable<File>[] | Promise<Nullable<File>[]>;
+    findAllFile(): Nullable<File>[] | Promise<Nullable<File>[]>;
     file(id: string): Nullable<File> | Promise<Nullable<File>>;
     findAllUser(): Nullable<User>[] | Promise<Nullable<User>[]>;
     user(id: string): Nullable<User> | Promise<Nullable<User>>;
@@ -77,4 +78,5 @@ export interface IMutation {
     login(userInput?: Nullable<UserInput>): Nullable<LoginResponse> | Promise<Nullable<LoginResponse>>;
 }
 
+export type DateTime = any;
 type Nullable<T> = T | null;

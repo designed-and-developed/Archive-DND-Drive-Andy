@@ -15,7 +15,10 @@ export class FileEntity {
   id: string;
 
   @Column()
-  name: string;
+  fileName: string;
+
+  @Column()
+  ownerName: string;
 
   @Column()
   userId: number;
