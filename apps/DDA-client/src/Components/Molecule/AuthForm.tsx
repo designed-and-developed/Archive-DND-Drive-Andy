@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  TextInput,
-  PasswordInput,
-  Anchor,
-  Paper,
-  Title,
-  Text,
-  Container,
-  Button,
-} from "@mantine/core";
+import { Anchor, Text, Container } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import {
   useCreateUserMutation,
@@ -16,12 +7,14 @@ import {
 } from "../../generated/graphql";
 import { useToggle } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
-
+import AuthTitle from "../Atom/AuthTitle";
+import AuthInput from "../Atom/AuthInput";
 
 const AuthForm = () => {
-  const [type, toggle] = useToggle(["Login", "Register"]);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [type, toggle] = useToggle(["Login", "Register"]);
+
   const navigate = useNavigate();
 
   const [
@@ -72,7 +65,7 @@ const AuthForm = () => {
         message: "User successfully registered!",
         color: "green",
       });
-      toggle()
+      toggle();
     }
   }, [registerData]);
 
@@ -91,15 +84,7 @@ const AuthForm = () => {
 
   return (
     <Container size={600} my={300}>
-      <Title
-        align="center"
-        sx={(theme) => ({
-          fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-          fontWeight: 900,
-        })}
-      >
-        DND Drive {type}
-      </Title>
+      <AuthTitle type={type} />
       <Text color="dimmed" size="m" align="center" mt={5}>
         {type === "Register"
           ? "Already have an account? "
@@ -108,34 +93,12 @@ const AuthForm = () => {
           {type === "Register" ? "Login" : "Register"}
         </Anchor>
       </Text>
-
-      <Paper withBorder shadow="md" p={50} mt={30} radius="md">
-        <form onSubmit={handleSubmit}>
-          <TextInput
-            size="lg"
-            label="Username"
-            name="username"
-            placeholder="cool_user_name"
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <PasswordInput
-            size="lg"
-            pt={10}
-            label="Password"
-            name="password"
-            placeholder="your password"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            mt="md"
-          />
-          <Button fullWidth mt={50} size="lg" type="submit">
-          {type === "Register"
-          ? "Signup"
-          : "Login"}
-          </Button>
-        </form>
-      </Paper>
+      <AuthInput
+        handleSubmit={handleSubmit}
+        setUsername={setUsername}
+        setPassword={setPassword}
+        type={type}
+      />
     </Container>
   );
 };

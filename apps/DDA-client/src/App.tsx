@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import AuthPage from "./Components/Pages/AuthPage";
-import AllUsers from "./Components/Pages/Test";
-import Dashboard from "./Components/Pages/Dashboard";
+import AuthPage from "./Pages/AuthPage";
+import AllUsers from "./Pages/Test";
+import Dashboard from "./Pages/Dashboard";
 
 function App() {
   return (

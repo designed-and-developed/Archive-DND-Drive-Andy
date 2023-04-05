@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import { FindAllUserDocument } from "../../generated/graphql";
+import { FindAllUserDocument } from "../generated/graphql";
 
 const AllUsers = () => {
   const { loading, error, data } = useQuery(FindAllUserDocument);
