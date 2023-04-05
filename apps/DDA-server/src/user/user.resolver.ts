@@ -11,8 +11,8 @@ export class UserResolver {
     return await this.userService.createUser(userInput);
   }
 
-  // @Query("user")
-  // findOne(@Args("id") id: number) {
-  //   return this.userService.showById(id);
-  // }
+  @Query("findAllUser")
+  async findAll() {
+    return await this.userService.findAll();
+  }
 }
