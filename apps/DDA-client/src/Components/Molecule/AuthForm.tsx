@@ -84,15 +84,7 @@ const AuthForm = () => {
 
   return (
     <Container size={600} my={300}>
-      <AuthTitle type={type} />
-      <Text color="dimmed" size="m" align="center" mt={5}>
-        {type === "Register"
-          ? "Already have an account? "
-          : "Don't have an account? "}
-        <Anchor size="sm" component="button" onClick={() => toggle()}>
-          {type === "Register" ? "Login" : "Register"}
-        </Anchor>
-      </Text>
+      <AuthTitle type={type} toggle={toggle}/>
       <AuthInput
         handleSubmit={handleSubmit}
         setUsername={setUsername}
