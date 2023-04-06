@@ -11,9 +11,6 @@
 export interface CreateFileInput {
     fileName: string;
     ownerName: string;
-    userId: string;
-    awsUrl?: Nullable<string>;
-    downloadCount?: Nullable<number>;
 }
 
 export interface CreateTagInput {
@@ -33,8 +30,7 @@ export interface UserInput {
 export interface File {
     id: string;
     fileName: string;
-    ownerName: string;
-    userId: string;
+    user: User;
     createdAt: DateTime;
     awsUrl?: Nullable<string>;
     downloadCount?: Nullable<number>;

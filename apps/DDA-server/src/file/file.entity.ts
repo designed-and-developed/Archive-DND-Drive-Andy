@@ -1,3 +1,4 @@
+import { Col } from "sequelize/types/utils";
 import { FileTagEntity } from "../file_tags/file_tag.entity";
 import { UserEntity } from "../user/user.entity";
 import {
@@ -19,9 +20,6 @@ export class FileEntity {
 
   @Column()
   ownerName: string;
-
-  @Column()
-  userId: string;
 
   @CreateDateColumn({
     type: "timestamp with time zone",

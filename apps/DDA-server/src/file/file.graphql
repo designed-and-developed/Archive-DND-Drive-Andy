@@ -3,8 +3,7 @@ scalar Date
 type File {
   id: String!
   fileName: String!
-  ownerName: String!
-  userId: String!
+  user: User!
   createdAt: Date!
   awsUrl: String
   downloadCount: Int
@@ -13,9 +12,6 @@ type File {
 input CreateFileInput {
   fileName: String!
   ownerName: String!
-  userId: String!
-  awsUrl: String
-  downloadCount: Int
 }
 
 type SuccessResponse {
@@ -30,4 +26,3 @@ type Query {
   findAllFile: [File]!
   file(id: ID!): File
 }
-

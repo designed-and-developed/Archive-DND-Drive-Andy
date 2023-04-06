@@ -17,13 +17,8 @@ export type Scalars = {
 };
 
 export type CreateFileInput = {
-  awsUrl?: InputMaybe<Scalars['String']>;
-  createdAt: Scalars['DateTime'];
-  downloadCount?: InputMaybe<Scalars['Int']>;
   fileName: Scalars['String'];
-  id: Scalars['String'];
   ownerName: Scalars['String'];
-  userId: Scalars['String'];
 };
 
 export type CreateTagInput = {
@@ -55,8 +50,14 @@ export type LoginResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createFile: SuccessResponse;
   createUser: SuccessResponse;
   login?: Maybe<LoginResponse>;
+};
+
+
+export type MutationCreateFileArgs = {
+  createFileInput: CreateFileInput;
 };
 
 
@@ -114,6 +115,13 @@ export type UserInput = {
   username: Scalars['String'];
 };
 
+export type CreateFileMutationVariables = Exact<{
+  createFileInput: CreateFileInput;
+}>;
+
+
+export type CreateFileMutation = { __typename?: 'Mutation', createFile: { __typename?: 'SuccessResponse', success: boolean } };
+
 export type CreateUserMutationVariables = Exact<{
   userInput: UserInput;
 }>;
@@ -139,6 +147,39 @@ export type FindAllUserQueryVariables = Exact<{ [key: string]: never; }>;
 export type FindAllUserQuery = { __typename?: 'Query', findAllUser: Array<{ __typename?: 'User', id: string, password: string, username: string } | null> };
 
 
+export const CreateFileDocument = gql`
+    mutation CreateFile($createFileInput: CreateFileInput!) {
+  createFile(createFileInput: $createFileInput) {
+    success
+  }
+}
+    `;
+export type CreateFileMutationFn = Apollo.MutationFunction<CreateFileMutation, CreateFileMutationVariables>;
+
+/**
+ * __useCreateFileMutation__
+ *
+ * To run a mutation, you first call `useCreateFileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateFileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createFileMutation, { data, loading, error }] = useCreateFileMutation({
+ *   variables: {
+ *      createFileInput: // value for 'createFileInput'
+ *   },
+ * });
+ */
+export function useCreateFileMutation(baseOptions?: Apollo.MutationHookOptions<CreateFileMutation, CreateFileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateFileMutation, CreateFileMutationVariables>(CreateFileDocument, options);
+      }
+export type CreateFileMutationHookResult = ReturnType<typeof useCreateFileMutation>;
+export type CreateFileMutationResult = Apollo.MutationResult<CreateFileMutation>;
+export type CreateFileMutationOptions = Apollo.BaseMutationOptions<CreateFileMutation, CreateFileMutationVariables>;
 export const CreateUserDocument = gql`
     mutation CreateUser($userInput: UserInput!) {
   createUser(userInput: $userInput) {
