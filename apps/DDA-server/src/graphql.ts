@@ -30,7 +30,16 @@ export interface UserInput {
 export interface File {
     id: string;
     fileName: string;
-    user: User;
+    ownerName: string;
+    createdAt: DateTime;
+    awsUrl?: Nullable<string>;
+    downloadCount?: Nullable<number>;
+}
+
+export interface FileResponse {
+    id: string;
+    fileName: string;
+    username: string;
     createdAt: DateTime;
     awsUrl?: Nullable<string>;
     downloadCount?: Nullable<number>;

@@ -3,7 +3,7 @@ scalar Date
 type File {
   id: String!
   fileName: String!
-  user: User!
+  ownerName: String!
   createdAt: Date!
   awsUrl: String
   downloadCount: Int

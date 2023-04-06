@@ -1,9 +1,6 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { FileService } from "./file.service";
 import { CreateFileInput } from "../graphql";
-import { UseGuards } from "@nestjs/common";
-import { GqlAuthGuard } from "../user/auth/gql-auth.guard";
-
 
 @Resolver("File")
 export class FileResolver {
