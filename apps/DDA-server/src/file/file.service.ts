@@ -1,9 +1,10 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UseGuards } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { FileEntity } from "./file.entity";
 import { Repository } from "typeorm";
 import { CreateFileInput, SuccessResponse } from "../graphql";
 import { UserEntity } from "../user/user.entity";
+import { GqlAuthGuard } from "../user/auth/gql-auth.guard";
 
 @Injectable()
 export class FileService {
@@ -15,17 +16,19 @@ export class FileService {
   ) {}
 
   async createFile(createFileInput: CreateFileInput): Promise<SuccessResponse> {
-    const file = new FileEntity();
+
     const owner = await this.userRepository.findOne({
       where: { username: createFileInput.ownerName },
     });
 
     if (!owner) return { success: false };
 
-    file.fileName = createFileInput.fileName;
-    file.user = owner;
-    file.awsUrl = "www.amazon.com";
-    file.downloadCount = 0;
+    const file = {
+      fileName: createFileInput.fileName,
+      awsUrl: "www.amazon.com",
+      downloadCount: 0,
+      user: owner,
+    };
 
     const save = await this.fileRepository.save(file);
 

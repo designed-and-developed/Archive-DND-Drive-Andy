@@ -18,9 +18,6 @@ export class FileEntity {
   @Column()
   fileName: string;
 
-  @Column()
-  ownerName: string;
-
   @CreateDateColumn({
     type: "timestamp with time zone",
     default: () => "NOW()",

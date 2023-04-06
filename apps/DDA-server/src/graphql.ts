@@ -70,7 +70,7 @@ export interface User {
 
 export interface LoginResponse {
     access_token: string;
-    username: string;
+    user: User;
 }
 
 export type DateTime = any;

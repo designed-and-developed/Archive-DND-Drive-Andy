@@ -11,7 +11,7 @@ input UserInput {
 
 type LoginResponse {
   access_token: String!
-  username: String!
+  user: User!
 }
 
 type SuccessResponse {
