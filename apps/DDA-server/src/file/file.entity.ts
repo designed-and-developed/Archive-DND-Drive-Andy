@@ -29,7 +29,7 @@ export class FileEntity {
   @Column()
   awsUrl: string;
 
-  @Column()
+  @Column({ default: 0 })
   downloadCount: number;
 
   @Column({ default: false })

@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { FileEntity } from "./file.entity";
 import { Repository } from "typeorm";
-import { CreateFileInput, FileResponse, SuccessResponse } from "../graphql";
+import { CreateFileInput, FileResponse, SuccessResponse, User } from "../graphql";
 import { UserEntity } from "../user/user.entity";
 
 @Injectable()
@@ -15,31 +15,31 @@ export class FileService {
   ) {}
 
   async createFile(createFileInput: CreateFileInput): Promise<SuccessResponse> {
-    const owner = await this.userRepository.findOne({
+    let successResp: SuccessResponse = { success: false };
+
+    const owner: User = await this.userRepository.findOne({
       where: { username: createFileInput.ownerName },
     });
 
-    if (!owner) return { success: false };
+    if (!owner) return successResp;
 
     const file = {
       fileName: createFileInput.fileName,
-      ownerName: createFileInput.ownerName,
+      ownerName: owner.username,
       awsUrl: "www.amazon.com",
-      downloadCount: 0,
+      user: owner,
     };
 
     const save = await this.fileRepository.save(file);
 
-    if (save) {
-      return { success: true };
-    } else {
-      return { success: false };
-    }
+    if (save) successResp.success = true;
+
+    return successResp;
   }
 
-  async findAllFile(): Promise<FileEntity[]> {
-    const data = await this.fileRepository.find();
+  async findAllFile(): Promise<FileResponse[]> {
+    const fileData = await this.fileRepository.find();
 
-    return data;
+    return fileData;
   }
 }

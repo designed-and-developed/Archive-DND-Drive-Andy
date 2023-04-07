@@ -32,17 +32,17 @@ export interface File {
     fileName: string;
     ownerName: string;
     createdAt: DateTime;
-    awsUrl?: Nullable<string>;
     downloadCount?: Nullable<number>;
+    awsUrl?: Nullable<string>;
+    user?: Nullable<User>;
 }
 
 export interface FileResponse {
-    id: string;
     fileName: string;
-    username: string;
+    ownerName: string;
     createdAt: DateTime;
-    awsUrl?: Nullable<string>;
     downloadCount?: Nullable<number>;
+    awsUrl?: Nullable<string>;
 }
 
 export interface SuccessResponse {
@@ -56,7 +56,7 @@ export interface IMutation {
 }
 
 export interface IQuery {
-    findAllFile(): Nullable<File>[] | Promise<Nullable<File>[]>;
+    findAllFile(): Nullable<FileResponse>[] | Promise<Nullable<FileResponse>[]>;
     file(id: string): Nullable<File> | Promise<Nullable<File>>;
     findAllUser(): Nullable<User>[] | Promise<Nullable<User>[]>;
     user(id: string): Nullable<User> | Promise<Nullable<User>>;
@@ -79,7 +79,7 @@ export interface User {
 
 export interface LoginResponse {
     access_token: string;
-    user: User;
+    username: string;
 }
 
 export type DateTime = any;

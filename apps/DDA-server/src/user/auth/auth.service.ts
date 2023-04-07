@@ -42,21 +42,17 @@ export class AuthService {
 
   async login(userInput: UserInput) {
     try {
-      const { username, password } = userInput;
+      const user = await this.validateUser(userInput.username, userInput.password);
 
-      const user = await this.validateUser(username, password);
-
-      if (!user) {
-        return null;
-      }
+      if (!user) return null;
 
       return {
         access_token: this.jwtService.sign({
           username: user.username,
           sub: user.id,
         }),
-        user,
+        username: user.username,
       };
-    } catch (error) {}
+    } catch (err) {}
   }
 }

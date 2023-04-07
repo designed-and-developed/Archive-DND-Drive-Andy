@@ -5,8 +5,17 @@ type File {
   fileName: String!
   ownerName: String!
   createdAt: Date!
-  awsUrl: String
   downloadCount: Int
+  awsUrl: String
+  user: User
+}
+
+type FileResponse {
+  fileName: String!
+  ownerName: String!
+  createdAt: Date!
+  downloadCount: Int
+  awsUrl: String
 }
 
 input CreateFileInput {
@@ -23,6 +32,6 @@ type Mutation {
 }
 
 type Query {
-  findAllFile: [File]!
+  findAllFile: [FileResponse]!
   file(id: ID!): File
 }
