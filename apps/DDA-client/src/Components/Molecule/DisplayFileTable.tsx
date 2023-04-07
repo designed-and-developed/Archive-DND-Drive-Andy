@@ -1,11 +1,8 @@
-import { Button, Container, Group, Paper, Table, Title } from "@mantine/core";
-import { useEffect, useState } from "react";
-import ModalForm from "./ModalForm";
-import { useDisclosure, useForceUpdate } from "@mantine/hooks";
+import { Container, Paper, Table, Title } from "@mantine/core";
+import { useEffect } from "react";
 import { useFindAllFileLazyQuery } from "../../generated/graphql";
 
-const DisplayFileTable = () => {
-  const [opened, { open, close }] = useDisclosure(false);
+const DisplayFileTable = (opened:any) => {
 
   const [
     executeFindAllFilesQuery,
@@ -14,7 +11,8 @@ const DisplayFileTable = () => {
 
   useEffect(() => {
     executeFindAllFilesQuery();
-  }, []);
+    console.log(filesData)
+  }, [opened]);
 
   const rows = filesData?.findAllFile.map((element: any) => (
     <tr key={element?.id}>
@@ -29,10 +27,6 @@ const DisplayFileTable = () => {
 
   return (
     <Container size={1200} my={100}>
-      <ModalForm opened={opened} close={close} />
-      <Group position="center">
-        <Button onClick={open}>Upload File</Button>
-      </Group>
       <Paper shadow="xs" p="xl">
         <Title
           order={3}

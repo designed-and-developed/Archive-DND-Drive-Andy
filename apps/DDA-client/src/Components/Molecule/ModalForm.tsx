@@ -50,8 +50,8 @@ const ModalForm = (
 
   const handleUpload = async () => {
     const s3 = new AWS.S3({
-      accessKeyId: "AKIA5U234Q2RCCUUREIN",
-      secretAccessKey: "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",
+      accessKeyId: import.meta.env.VITE_ACCESS_KEY,
+      secretAccessKey: import.meta.env.VITE_SECRET_ACCESS_KEY,
       region: "ap-southeast-2",
     });
 
