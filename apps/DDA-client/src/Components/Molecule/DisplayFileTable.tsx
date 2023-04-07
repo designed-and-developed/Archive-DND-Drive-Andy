@@ -1,16 +1,17 @@
 import { Container, Paper, Table, Title } from "@mantine/core";
 import { useEffect } from "react";
-import { useFindAllFileLazyQuery } from "../../generated/graphql";
 
-const DisplayFileTable = (opened:any) => {
+type DFTtype = {
+  opened: boolean;
+  findAllFiles: () => void;
+  filesData: any;
+};
 
-  const [
-    executeFindAllFilesQuery,
-    { data: filesData, loading: filesLoading, error: filesError },
-  ] = useFindAllFileLazyQuery();
+
+const DisplayFileTable = ({ opened, findAllFiles, filesData }: DFTtype,) => {
 
   useEffect(() => {
-    executeFindAllFilesQuery();
+    findAllFiles();
     console.log(filesData)
   }, [opened]);
 

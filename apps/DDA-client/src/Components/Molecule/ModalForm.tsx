@@ -19,10 +19,11 @@ import { notifications } from "@mantine/notifications";
 type MFtype = {
   opened: boolean;
   close: () => void;
+  findAllFiles: () => void;
 };
 
 const ModalForm = (
-  { opened, close }: MFtype,
+  { opened, close, findAllFiles }: MFtype,
   props: Partial<DropzoneProps>
 ) => {
   const [filename, setFilename] = useState<any>("");
@@ -66,7 +67,11 @@ const ModalForm = (
 
       if (response) {
         setAwsUrl(response.Location);
-        executeCreateFileMutation();
+        const listUpdate = await executeCreateFileMutation();
+        if (listUpdate) {
+          findAllFiles();
+          close();
+        }
         notifications.show({
           title: "Alert",
           message: "File Uploaded Successfully!",
