@@ -2,10 +2,9 @@ query FindAllFile {
   findAllFile {
     awsUrl
     createdAt
-    downloadCount
     fileName
-    id
     ownerName
-    userId
+    downloadCount
+    id
   }
 }

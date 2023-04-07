@@ -17,9 +17,9 @@ export type Scalars = {
 };
 
 export type CreateFileInput = {
+  awsUrl: Scalars['String'];
   fileName: Scalars['String'];
   ownerName: Scalars['String'];
-  awsUrl: Scalars['String'];
 };
 
 export type CreateTagInput = {
@@ -29,13 +29,23 @@ export type CreateTagInput = {
 
 export type File = {
   __typename?: 'File';
+  awsUrl: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  downloadCount: Scalars['Int'];
+  fileName: Scalars['String'];
+  id: Scalars['String'];
+  ownerName: Scalars['String'];
+  user: User;
+};
+
+export type FileResponse = {
+  __typename?: 'FileResponse';
   awsUrl?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   downloadCount?: Maybe<Scalars['Int']>;
   fileName: Scalars['String'];
   id: Scalars['String'];
   ownerName: Scalars['String'];
-  userId: Scalars['String'];
 };
 
 export type FileTag = {
@@ -74,7 +84,7 @@ export type MutationLoginArgs = {
 export type Query = {
   __typename?: 'Query';
   file?: Maybe<File>;
-  findAllFile: Array<Maybe<File>>;
+  findAllFile: Array<Maybe<FileResponse>>;
   findAllUser: Array<Maybe<User>>;
   user?: Maybe<User>;
 };
@@ -140,7 +150,7 @@ export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'L
 export type FindAllFileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllFileQuery = { __typename?: 'Query', findAllFile: Array<{ __typename?: 'File', awsUrl?: string | null, createdAt: any, downloadCount?: number | null, fileName: string, id: string, ownerName: string, userId: string } | null> };
+export type FindAllFileQuery = { __typename?: 'Query', findAllFile: Array<{ __typename?: 'FileResponse', awsUrl?: string | null, createdAt: any, fileName: string, ownerName: string, downloadCount?: number | null, id: string } | null> };
 
 export type FindAllUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -253,11 +263,10 @@ export const FindAllFileDocument = gql`
   findAllFile {
     awsUrl
     createdAt
-    downloadCount
     fileName
-    id
     ownerName
-    userId
+    downloadCount
+    id
   }
 }
     `;
