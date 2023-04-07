@@ -38,6 +38,7 @@ export interface File {
 }
 
 export interface FileResponse {
+    id: string;
     fileName: string;
     ownerName: string;
     createdAt: DateTime;

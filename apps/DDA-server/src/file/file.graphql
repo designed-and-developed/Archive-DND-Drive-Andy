@@ -11,6 +11,7 @@ type File {
 }
 
 type FileResponse {
+  id: String!
   fileName: String!
   ownerName: String!
   createdAt: Date!
