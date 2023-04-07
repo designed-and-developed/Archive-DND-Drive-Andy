@@ -26,7 +26,7 @@ export class FileService {
     const file = {
       fileName: createFileInput.fileName,
       ownerName: owner.username,
-      awsUrl: "www.amazon.com",
+      awsUrl: createFileInput.awsUrl,
       user: owner,
     };
 

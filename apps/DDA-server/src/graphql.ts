@@ -11,6 +11,7 @@
 export interface CreateFileInput {
     fileName: string;
     ownerName: string;
+    awsUrl: string;
 }
 
 export interface CreateTagInput {
@@ -32,9 +33,9 @@ export interface File {
     fileName: string;
     ownerName: string;
     createdAt: DateTime;
-    downloadCount?: Nullable<number>;
-    awsUrl?: Nullable<string>;
-    user?: Nullable<User>;
+    downloadCount: number;
+    awsUrl: string;
+    user: User;
 }
 
 export interface FileResponse {

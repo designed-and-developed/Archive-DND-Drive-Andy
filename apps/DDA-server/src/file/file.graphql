@@ -5,9 +5,9 @@ type File {
   fileName: String!
   ownerName: String!
   createdAt: Date!
-  downloadCount: Int
-  awsUrl: String
-  user: User
+  downloadCount: Int!
+  awsUrl: String!
+  user: User!
 }
 
 type FileResponse {
@@ -22,6 +22,7 @@ type FileResponse {
 input CreateFileInput {
   fileName: String!
   ownerName: String!
+  awsUrl: String!
 }
 
 type SuccessResponse {

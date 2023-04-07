@@ -19,6 +19,7 @@ export type Scalars = {
 export type CreateFileInput = {
   fileName: Scalars['String'];
   ownerName: Scalars['String'];
+  awsUrl: Scalars['String'];
 };
 
 export type CreateTagInput = {
