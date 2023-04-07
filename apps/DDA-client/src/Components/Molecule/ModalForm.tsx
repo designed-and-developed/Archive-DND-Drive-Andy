@@ -50,6 +50,25 @@ const ModalForm = (
   };
 
   const handleUpload = async () => {
+
+    if (!filename) {
+      notifications.show({
+        title: "Alert",
+        message: "File name cannot be empty!",
+        color: "red",
+      });
+      return ;
+    }
+
+    if (!file) {
+      notifications.show({
+        title: "Alert",
+        message: "Please upload at least 1 file.",
+        color: "red",
+      });
+      return ;
+    }
+
     const s3 = new AWS.S3({
       accessKeyId: import.meta.env.VITE_ACCESS_KEY,
       secretAccessKey: import.meta.env.VITE_SECRET_ACCESS_KEY,
@@ -69,13 +88,19 @@ const ModalForm = (
         setAwsUrl(response.Location);
         const listUpdate = await executeCreateFileMutation();
         if (listUpdate) {
+          // Requery for updated database
           findAllFiles();
+          // Close the modal
           close();
+          // Reset filename state
+          setFilename("");
+          // Reset file to null
+          setFile(null);
         }
         notifications.show({
           title: "Alert",
           message: "File Uploaded Successfully!",
-          color: "Green",
+          color: "green",
         });
       }
     } catch (error) {
@@ -83,7 +108,7 @@ const ModalForm = (
       notifications.show({
         title: "Alert",
         message: "Error uploading file. Please try again later.",
-        color: "Red",
+        color: "red",
       });
     }
   };
@@ -101,6 +126,7 @@ const ModalForm = (
       >
         <Dropzone
           onDrop={handleDrop}
+          multiple={false}
           onReject={(files) => console.log("rejected files", files)}
           accept={{
             "application/pdf": [], // Accepts PDF types Only
