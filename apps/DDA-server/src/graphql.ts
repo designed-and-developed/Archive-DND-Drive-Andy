@@ -9,14 +9,8 @@
 /* eslint-disable */
 
 export interface CreateFileInput {
-    name: string;
-    userId: string;
-    awsUrl?: Nullable<string>;
-    downloadCount?: Nullable<number>;
-}
-
-export interface UpdateFileInput {
-    id: string;
+    fileName: string;
+    ownerName: string;
 }
 
 export interface CreateTagInput {
@@ -35,14 +29,35 @@ export interface UserInput {
 
 export interface File {
     id: string;
-    name: string;
-    userId: string;
-    awsUrl?: Nullable<string>;
+    fileName: string;
+    ownerName: string;
+    createdAt: DateTime;
     downloadCount?: Nullable<number>;
+    awsUrl?: Nullable<string>;
+    user?: Nullable<User>;
+}
+
+export interface FileResponse {
+    id: string;
+    fileName: string;
+    ownerName: string;
+    createdAt: DateTime;
+    downloadCount?: Nullable<number>;
+    awsUrl?: Nullable<string>;
+}
+
+export interface SuccessResponse {
+    success: boolean;
+}
+
+export interface IMutation {
+    createFile(createFileInput: CreateFileInput): SuccessResponse | Promise<SuccessResponse>;
+    createUser(userInput: UserInput): SuccessResponse | Promise<SuccessResponse>;
+    login(userInput?: Nullable<UserInput>): Nullable<LoginResponse> | Promise<Nullable<LoginResponse>>;
 }
 
 export interface IQuery {
-    files(): Nullable<File>[] | Promise<Nullable<File>[]>;
+    findAllFile(): Nullable<FileResponse>[] | Promise<Nullable<FileResponse>[]>;
     file(id: string): Nullable<File> | Promise<Nullable<File>>;
     findAllUser(): Nullable<User>[] | Promise<Nullable<User>[]>;
     user(id: string): Nullable<User> | Promise<Nullable<User>>;
@@ -68,13 +83,5 @@ export interface LoginResponse {
     username: string;
 }
 
-export interface SuccessResponse {
-    success: boolean;
-}
-
-export interface IMutation {
-    createUser(userInput: UserInput): SuccessResponse | Promise<SuccessResponse>;
-    login(userInput?: Nullable<UserInput>): Nullable<LoginResponse> | Promise<Nullable<LoginResponse>>;
-}
-
+export type DateTime = any;
 type Nullable<T> = T | null;

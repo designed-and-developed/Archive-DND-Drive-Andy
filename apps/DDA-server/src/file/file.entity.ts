@@ -15,10 +15,10 @@ export class FileEntity {
   id: string;
 
   @Column()
-  name: string;
+  fileName: string;
 
   @Column()
-  userId: number;
+  ownerName: string;
 
   @CreateDateColumn({
     type: "timestamp with time zone",
@@ -29,7 +29,7 @@ export class FileEntity {
   @Column()
   awsUrl: string;
 
-  @Column()
+  @Column({ default: 0 })
   downloadCount: number;
 
   @Column({ default: false })

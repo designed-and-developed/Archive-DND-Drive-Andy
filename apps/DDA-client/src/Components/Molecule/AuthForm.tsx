@@ -77,7 +77,7 @@ const AuthForm = () => {
         message: "Credentials incorrect. Please check username or password.",
         color: "red",
       });
-    } else if (loginData?.login.access_token) {
+    } else if (loginData?.login?.access_token) {
       // Creates a login cookie
       Cookies.set("username", username, { expires: 7 });
       // Logs in the user, redirects to the dashboard

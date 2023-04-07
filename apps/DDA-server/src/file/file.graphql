@@ -1,24 +1,38 @@
+scalar Date
+
 type File {
   id: String!
-  name: String!
-  userId: String!
-  awsUrl: String
+  fileName: String!
+  ownerName: String!
+  createdAt: Date!
   downloadCount: Int
+  awsUrl: String
+  user: User
+}
+
+type FileResponse {
+  id: String!
+  fileName: String!
+  ownerName: String!
+  createdAt: Date!
+  downloadCount: Int
+  awsUrl: String
 }
 
 input CreateFileInput {
-  name: String!
-  userId: String!
-  awsUrl: String
-  downloadCount: Int
+  fileName: String!
+  ownerName: String!
 }
 
-input UpdateFileInput {
-  id: String!
+type SuccessResponse {
+  success: Boolean!
+}
+
+type Mutation {
+  createFile(createFileInput: CreateFileInput!): SuccessResponse!
 }
 
 type Query {
-  files: [File]!
-  file(id: String!): File
+  findAllFile: [FileResponse]!
+  file(id: ID!): File
 }
-
