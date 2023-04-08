@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { DisplayFileTable, ModalForm } from "../Components";
+import { ModalForm } from "../Components";
 import { useFindAllFileLazyQuery } from "../generated/graphql";
 
 const Dashboard = () => {
@@ -26,7 +26,6 @@ const Dashboard = () => {
       <Group position="center">
         <Button onClick={open}>Upload File</Button>
       </Group>
-      <DisplayFileTable opened={opened} findAllFiles={executeFindAllFilesQuery} filesData={filesData}/>
     </Container>
   );
 };
