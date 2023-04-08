@@ -8,85 +8,81 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export class CreateFileInput {
+export interface CreateFileInput {
     fileName: string;
     ownerName: string;
+    tagIds?: Nullable<Nullable<string>[]>;
 }
 
-export class CreateTagInput {
+export interface CreateTagInput {
     tagName: string;
 }
 
-export class UserInput {
+export interface UserInput {
     username: string;
     password: string;
 }
 
-export class File {
+export interface File {
     id: string;
     fileName: string;
     ownerName: string;
-    createdAt: Date;
+    createdAt: DateTime;
     downloadCount?: Nullable<number>;
     awsUrl?: Nullable<string>;
     user?: Nullable<User>;
 }
 
-export class FileResponse {
+export interface FileResponse {
     id: string;
     fileName: string;
     ownerName: string;
-    createdAt: Date;
+    createdAt: DateTime;
     downloadCount?: Nullable<number>;
     awsUrl?: Nullable<string>;
 }
 
-export class SuccessResponse {
+export interface SuccessResponse {
     success: boolean;
 }
 
-export abstract class IMutation {
-    abstract createFile(createFileInput: CreateFileInput): SuccessResponse | Promise<SuccessResponse>;
-
-    abstract createTag(createTagInput: CreateTagInput): SuccessResponse | Promise<SuccessResponse>;
-
-    abstract createUser(userInput: UserInput): SuccessResponse | Promise<SuccessResponse>;
-
-    abstract login(userInput?: Nullable<UserInput>): Nullable<LoginResponse> | Promise<Nullable<LoginResponse>>;
+export interface IMutation {
+    createFile(createFileInput: CreateFileInput): SuccessResponse | Promise<SuccessResponse>;
+    createTag(createTagInput: CreateTagInput): SuccessResponse | Promise<SuccessResponse>;
+    createUser(userInput: UserInput): SuccessResponse | Promise<SuccessResponse>;
+    login(userInput?: Nullable<UserInput>): Nullable<LoginResponse> | Promise<Nullable<LoginResponse>>;
 }
 
-export abstract class IQuery {
-    abstract findAllFile(): Nullable<FileResponse>[] | Promise<Nullable<FileResponse>[]>;
-
-    abstract file(id: string): Nullable<File> | Promise<Nullable<File>>;
-
-    abstract findAllTag(): Nullable<Tag>[] | Promise<Nullable<Tag>[]>;
-
-    abstract tag(id: string): Nullable<Tag> | Promise<Nullable<Tag>>;
-
-    abstract findAllUser(): Nullable<User>[] | Promise<Nullable<User>[]>;
-
-    abstract user(id: string): Nullable<User> | Promise<Nullable<User>>;
+export interface IQuery {
+    findAllFile(): Nullable<FileResponse>[] | Promise<Nullable<FileResponse>[]>;
+    file(id: string): Nullable<File> | Promise<Nullable<File>>;
+    findAllTag(): Nullable<Tag>[] | Promise<Nullable<Tag>[]>;
+    tag(id: string): Nullable<Tag> | Promise<Nullable<Tag>>;
+    findAllUser(): Nullable<User>[] | Promise<Nullable<User>[]>;
+    user(id: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
-export class FileTag {
+export interface FileTag {
     id: string;
+    file?: Nullable<File>;
+    tag?: Nullable<Tag>;
 }
 
-export class Tag {
+export interface Tag {
     id: string;
     tagName: string;
 }
 
-export class User {
+export interface User {
     id: string;
     username: string;
     password: string;
 }
 
-export class LoginResponse {
+export interface LoginResponse {
     access_token: string;
     username: string;
 }
 
+export type DateTime = any;
 type Nullable<T> = T | null;

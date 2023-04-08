@@ -1,6 +1,7 @@
 type FileTag {
-  # Example field (placeholder)
   id: String!
+  file: File
+  tag: Tag
 }
 
 

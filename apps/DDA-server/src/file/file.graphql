@@ -22,6 +22,7 @@ type FileResponse {
 input CreateFileInput {
   fileName: String!
   ownerName: String!
+  tagIds: [String]
 }
 
 type SuccessResponse {
