@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "seed": "ts-node ./src/tag-seed",
     "gen-typings": "ts-node ./src/generate-typings",
     "start": "nest start",
     "dev": "nest start",

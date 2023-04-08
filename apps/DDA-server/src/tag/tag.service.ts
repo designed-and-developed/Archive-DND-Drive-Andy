@@ -1,16 +1,26 @@
 import { Injectable } from "@nestjs/common";
+import { TagEntity } from "./tag.entity";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { Tag, CreateTagInput } from "../graphql";
 
 @Injectable()
 export class TagService {
-  findAll() {
-    return `This action returns all tag`;
+  constructor(
+    @InjectRepository(TagEntity)
+    private tagRepository: Repository<TagEntity>,
+  ) {}
+
+  async findAllTag(): Promise<Tag[]> {
+    const tagData = await this.tagRepository.find();
+
+    return tagData;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tag`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} tag`;
+  async createTag(createTagInput: CreateTagInput): Promise<Tag> {
+    const tag = {
+      tagName: createTagInput.tagName
+    }
+    return await this.tagRepository.save(tag);
   }
 }
