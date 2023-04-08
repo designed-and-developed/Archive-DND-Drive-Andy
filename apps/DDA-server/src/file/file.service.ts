@@ -44,19 +44,21 @@ export class FileService {
 
     const fileEntry = await this.fileRepository.save(file);
 
-    // Create a file_tag entry
-    createFileInput.tagIds.forEach(async (tagId) => {
-      const tagEntry = await this.tagRepository.findOne({
-        where: { id: tagId },
+    // Create file_tag entries
+    if (createFileInput.tagIds) {
+      createFileInput.tagIds.forEach(async (tagId) => {
+        const tagEntry = await this.tagRepository.findOne({
+          where: { id: tagId },
+        });
+        const file_tag = {
+          file: fileEntry,
+          tag: tagEntry,
+        };
+        await this.fileTagRepository.save(file_tag);
       });
-      const file_tag = {
-        file: fileEntry,
-        tag: tagEntry,
-      };
-      await this.fileTagRepository.save(file_tag);
-    });
+    }
 
-    successResp.success = true
+    successResp.success = true;
 
     return successResp;
   }
