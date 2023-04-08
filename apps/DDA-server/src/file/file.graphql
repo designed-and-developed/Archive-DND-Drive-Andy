@@ -22,6 +22,8 @@ type FileResponse {
 input CreateFileInput {
   fileName: String!
   ownerName: String!
+  awsUrl: String!
+  tagIds: [String]
 }
 
 type SuccessResponse {

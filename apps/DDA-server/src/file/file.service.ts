@@ -2,8 +2,16 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { FileEntity } from "./file.entity";
 import { Repository } from "typeorm";
-import { CreateFileInput, FileResponse, SuccessResponse, User } from "../graphql";
+import {
+  CreateFileInput,
+  FileResponse,
+  FileTag,
+  SuccessResponse,
+  User,
+} from "../graphql";
 import { UserEntity } from "../user/user.entity";
+import { FileTagEntity } from "../file_tags/file_tag.entity";
+import { TagEntity } from "../tag/tag.entity";
 
 @Injectable()
 export class FileService {
@@ -12,6 +20,10 @@ export class FileService {
     private userRepository: Repository<UserEntity>,
     @InjectRepository(FileEntity)
     private fileRepository: Repository<FileEntity>,
+    @InjectRepository(FileTagEntity)
+    private fileTagRepository: Repository<FileTagEntity>,
+    @InjectRepository(TagEntity)
+    private tagRepository: Repository<TagEntity>,
   ) {}
 
   async createFile(createFileInput: CreateFileInput): Promise<SuccessResponse> {
@@ -23,16 +35,30 @@ export class FileService {
 
     if (!owner) return successResp;
 
-    const file = {
+    let file = {
       fileName: createFileInput.fileName,
       ownerName: owner.username,
-      awsUrl: "www.amazon.com",
+      awsUrl: createFileInput.awsUrl,
       user: owner,
     };
 
-    const save = await this.fileRepository.save(file);
+    const fileEntry = await this.fileRepository.save(file);
 
-    if (save) successResp.success = true;
+    // Create file_tag entries
+    if (createFileInput.tagIds) {
+      createFileInput.tagIds.forEach(async (tagId) => {
+        const tagEntry = await this.tagRepository.findOne({
+          where: { id: tagId },
+        });
+        const file_tag = {
+          file: fileEntry,
+          tag: tagEntry,
+        };
+        await this.fileTagRepository.save(file_tag);
+      });
+    }
+
+    successResp.success = true;
 
     return successResp;
   }
