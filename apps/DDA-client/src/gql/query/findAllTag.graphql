@@ -1,0 +1,6 @@
+query FindAllTag {
+  findAllTag {
+    id
+    tagName
+  }
+}

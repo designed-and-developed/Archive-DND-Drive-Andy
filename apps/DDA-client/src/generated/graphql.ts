@@ -17,13 +17,14 @@ export type Scalars = {
 };
 
 export type CreateFileInput = {
+  awsUrl: Scalars['String'];
   fileName: Scalars['String'];
   ownerName: Scalars['String'];
+  tagIds?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type CreateTagInput = {
-  id: Scalars['Int'];
-  name: Scalars['String'];
+  tagName: Scalars['String'];
 };
 
 export type File = {
@@ -34,12 +35,24 @@ export type File = {
   fileName: Scalars['String'];
   id: Scalars['String'];
   ownerName: Scalars['String'];
-  userId: Scalars['String'];
+  user?: Maybe<User>;
+};
+
+export type FileResponse = {
+  __typename?: 'FileResponse';
+  awsUrl?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  downloadCount?: Maybe<Scalars['Int']>;
+  fileName: Scalars['String'];
+  id: Scalars['String'];
+  ownerName: Scalars['String'];
 };
 
 export type FileTag = {
   __typename?: 'FileTag';
+  file?: Maybe<File>;
   id: Scalars['String'];
+  tag?: Maybe<Tag>;
 };
 
 export type LoginResponse = {
@@ -51,6 +64,7 @@ export type LoginResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   createFile: SuccessResponse;
+  createTag: SuccessResponse;
   createUser: SuccessResponse;
   login?: Maybe<LoginResponse>;
 };
@@ -58,6 +72,11 @@ export type Mutation = {
 
 export type MutationCreateFileArgs = {
   createFileInput: CreateFileInput;
+};
+
+
+export type MutationCreateTagArgs = {
+  createTagInput: CreateTagInput;
 };
 
 
@@ -73,13 +92,20 @@ export type MutationLoginArgs = {
 export type Query = {
   __typename?: 'Query';
   file?: Maybe<File>;
-  findAllFile: Array<Maybe<File>>;
+  findAllFile: Array<Maybe<FileResponse>>;
+  findAllTag: Array<Maybe<Tag>>;
   findAllUser: Array<Maybe<User>>;
+  tag?: Maybe<Tag>;
   user?: Maybe<User>;
 };
 
 
 export type QueryFileArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryTagArgs = {
   id: Scalars['ID'];
 };
 
@@ -96,11 +122,7 @@ export type SuccessResponse = {
 export type Tag = {
   __typename?: 'Tag';
   id: Scalars['String'];
-  name: Scalars['String'];
-};
-
-export type UpdateTagInput = {
-  id: Scalars['Int'];
+  tagName: Scalars['String'];
 };
 
 export type User = {
@@ -136,10 +158,10 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'LoginResponse', username: string, access_token: string } | null };
 
-export type FindAllFileQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindAllTagQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllFileQuery = { __typename?: 'Query', findAllFile: Array<{ __typename?: 'File', awsUrl?: string | null, createdAt: any, downloadCount?: number | null, fileName: string, id: string, ownerName: string, userId: string } | null> };
+export type FindAllTagQuery = { __typename?: 'Query', findAllTag: Array<{ __typename?: 'Tag', id: string, tagName: string } | null> };
 
 export type FindAllUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -247,46 +269,41 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
-export const FindAllFileDocument = gql`
-    query FindAllFile {
-  findAllFile {
-    awsUrl
-    createdAt
-    downloadCount
-    fileName
+export const FindAllTagDocument = gql`
+    query FindAllTag {
+  findAllTag {
     id
-    ownerName
-    userId
+    tagName
   }
 }
     `;
 
 /**
- * __useFindAllFileQuery__
+ * __useFindAllTagQuery__
  *
- * To run a query within a React component, call `useFindAllFileQuery` and pass it any options that fit your needs.
- * When your component renders, `useFindAllFileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFindAllTagQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllTagQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFindAllFileQuery({
+ * const { data, loading, error } = useFindAllTagQuery({
  *   variables: {
  *   },
  * });
  */
-export function useFindAllFileQuery(baseOptions?: Apollo.QueryHookOptions<FindAllFileQuery, FindAllFileQueryVariables>) {
+export function useFindAllTagQuery(baseOptions?: Apollo.QueryHookOptions<FindAllTagQuery, FindAllTagQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindAllFileQuery, FindAllFileQueryVariables>(FindAllFileDocument, options);
+        return Apollo.useQuery<FindAllTagQuery, FindAllTagQueryVariables>(FindAllTagDocument, options);
       }
-export function useFindAllFileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllFileQuery, FindAllFileQueryVariables>) {
+export function useFindAllTagLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllTagQuery, FindAllTagQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindAllFileQuery, FindAllFileQueryVariables>(FindAllFileDocument, options);
+          return Apollo.useLazyQuery<FindAllTagQuery, FindAllTagQueryVariables>(FindAllTagDocument, options);
         }
-export type FindAllFileQueryHookResult = ReturnType<typeof useFindAllFileQuery>;
-export type FindAllFileLazyQueryHookResult = ReturnType<typeof useFindAllFileLazyQuery>;
-export type FindAllFileQueryResult = Apollo.QueryResult<FindAllFileQuery, FindAllFileQueryVariables>;
+export type FindAllTagQueryHookResult = ReturnType<typeof useFindAllTagQuery>;
+export type FindAllTagLazyQueryHookResult = ReturnType<typeof useFindAllTagLazyQuery>;
+export type FindAllTagQueryResult = Apollo.QueryResult<FindAllTagQuery, FindAllTagQueryVariables>;
 export const FindAllUserDocument = gql`
     query FindAllUser {
   findAllUser {
