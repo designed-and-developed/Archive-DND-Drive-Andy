@@ -12,7 +12,6 @@ const DisplayFileTable = ({ opened, findAllFiles, filesData }: DFTtype,) => {
 
   useEffect(() => {
     findAllFiles();
-    console.log(filesData)
   }, [opened]);
 
   const rows = filesData?.findAllFile.map((element: any) => (

@@ -28,7 +28,6 @@ const ModalForm = (
 ) => {
   const [filename, setFilename] = useState<any>("");
   const [file, setFile] = useState<any>(null);
-  const [awsUrl, setAwsUrl] = useState<any>("");
   const theme = useMantineTheme();
 
   const [
@@ -37,9 +36,9 @@ const ModalForm = (
   ] = useCreateFileMutation({
     variables: {
       createFileInput: {
-        fileName: filename,
+        fileName: "Default.pdf",
         ownerName: Cookies.get("username") || "Unknown",
-        awsUrl: awsUrl,
+        awsUrl: "www.amazon.com",
       },
     },
   });
@@ -85,8 +84,16 @@ const ModalForm = (
       const response = await s3.upload(params).promise();
 
       if (response) {
-        setAwsUrl(response.Location);
-        const listUpdate = await executeCreateFileMutation();
+
+        const listUpdate = await executeCreateFileMutation({
+          variables: {
+            createFileInput: {
+              fileName: filename,
+              ownerName: Cookies.get("username") || "Unknown",
+              awsUrl: response.Location,
+            },
+          },
+        });
         if (listUpdate) {
           // Requery for updated database
           findAllFiles();
