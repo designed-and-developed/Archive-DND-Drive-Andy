@@ -53,9 +53,10 @@ export class FileService {
         file: fileEntry,
         tag: tagEntry,
       };
-      const file_tag_entry = await this.fileTagRepository.save(file_tag);
-      if (!file_tag_entry) successResp.success = false;
+      await this.fileTagRepository.save(file_tag);
     });
+
+    successResp.success = true
 
     return successResp;
   }
