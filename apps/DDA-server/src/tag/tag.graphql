@@ -1,15 +1,21 @@
 type Tag {
   id: String!
-  name: String!
+  tagName: String!
 }
 
 input CreateTagInput {
-  id: Int!
-  name: String!
+  tagName: String!
 }
 
-input UpdateTagInput {
-  id: Int!
+type SuccessResponse {
+  success: Boolean!
 }
 
+type Mutation {
+  createTag(createTagInput: CreateTagInput!): SuccessResponse!
+}
 
+type Query {
+  findAllTag: [Tag]!
+  tag(id: ID!): Tag
+}

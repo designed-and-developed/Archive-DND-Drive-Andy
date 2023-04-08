@@ -7,7 +7,7 @@ export class TagEntity {
   id: string;
 
   @Column()
-  name: string;
+  tagName: string;
 
   @OneToMany(() => FileTagEntity, (fileTag) => fileTag.tag)
   fileTags: FileTagEntity;
