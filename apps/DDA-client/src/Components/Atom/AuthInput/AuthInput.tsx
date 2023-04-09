@@ -1,10 +1,9 @@
 import { Button, Paper, PasswordInput, TextInput } from "@mantine/core";
-import { useState } from "react";
 
 type AItype = {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  setUsername: (e: any) => void;
-  setPassword: (e: any) => void;
+  setUsername: (e: string) => void;
+  setPassword: (e: string) => void;
   type: string;
 };
 

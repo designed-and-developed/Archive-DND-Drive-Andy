@@ -4,11 +4,12 @@ import { notifications } from "@mantine/notifications";
 import {
   useCreateUserMutation,
   useLoginMutation,
-} from "../../generated/graphql";
+} from "../../../generated/graphql";
 import { useToggle } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
-import { AuthInput, AuthTitle } from "../Atom";
+import { AuthInput, AuthTitle } from "../../Atom";
 import Cookies from "js-cookie";
+import { ALERT_TEXT } from "../../../@constants/constants";
 
 const AuthForm = () => {
   const [username, setUsername] = useState<string>("");
@@ -55,13 +56,13 @@ const AuthForm = () => {
   useEffect(() => {
     if (registerData?.createUser.success == false) {
       notifications.show({
-        title: "Alert",
+        title: ALERT_TEXT,
         message: "User already registered. Please use another username.",
         color: "red",
       });
     } else if (registerData?.createUser.success == true) {
       notifications.show({
-        title: "Alert",
+        title: ALERT_TEXT,
         message: "User successfully registered!",
         color: "green",
       });
@@ -73,7 +74,7 @@ const AuthForm = () => {
     if (Cookies.get("username")) navigate("/dashboard");
     if (loginData && loginData?.login == null) {
       notifications.show({
-        title: "Alert",
+        title: ALERT_TEXT,
         message: "Credentials incorrect. Please check username or password.",
         color: "red",
       });

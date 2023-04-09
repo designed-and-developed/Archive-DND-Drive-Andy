@@ -3,13 +3,11 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { ModalForm } from "../Components";
+import { ModalForm } from "../../Components";
 
 const Dashboard = () => {
-
   const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
-
 
   useEffect(() => {
     if (!Cookies.get("username")) navigate("/");

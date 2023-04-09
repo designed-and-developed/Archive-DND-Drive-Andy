@@ -5,19 +5,20 @@ import {
   Modal,
   TextInput,
   useMantineTheme,
-  rem,
   MultiSelect,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
 import {
   useCreateFileMutation,
   useFindAllTagLazyQuery,
-} from "../../generated/graphql";
+} from "../../../generated/graphql";
 import Cookies from "js-cookie";
 import { Dropzone, DropzoneProps } from "@mantine/dropzone";
 import { IconUpload, IconFileDescription, IconX } from "@tabler/icons-react";
 import AWS from "aws-sdk";
 import { notifications } from "@mantine/notifications";
+import { useStyles } from "./styles";
+import * as constants from "../../../@constants/constants";
 
 type MFtype = {
   opened: boolean;
@@ -28,10 +29,11 @@ const ModalForm = (
   { opened, close }: MFtype,
   props: Partial<DropzoneProps>
 ) => {
-  const [filename, setFilename] = useState<any>("");
-  const [selectedTags, setSelectedTags] = useState<any>("");
-  const [file, setFile] = useState<any>(null);
+  const [filename, setFilename] = useState<string>("");
+  const [selectedTags, setSelectedTags] = useState<string[]>();
+  const [file, setFile] = useState<File | null>();
   const theme = useMantineTheme();
+  const { classes } = useStyles();
 
   const [
     executeFindAllTagsQuery,
@@ -44,9 +46,9 @@ const ModalForm = (
   ] = useCreateFileMutation({
     variables: {
       createFileInput: {
-        fileName: "Default.pdf",
-        ownerName: Cookies.get("username") || "Unknown",
-        awsUrl: "www.amazon.com",
+        fileName: constants.DEFAULT_FILE,
+        ownerName: Cookies.get("username") || constants.UNKNOWN_USER,
+        awsUrl: constants.DEFAULT_URL,
       },
     },
   });
@@ -56,7 +58,7 @@ const ModalForm = (
     displayTagData.push({ value: tag?.id, label: tag?.tagName });
   });
 
-  const handleDrop = (files: any) => {
+  const handleDrop = (files: File[]) => {
     setFilename(files[0].name);
     setFile(files[0]);
   };
@@ -64,7 +66,7 @@ const ModalForm = (
   const handleUpload = async () => {
     if (!filename) {
       notifications.show({
-        title: "Alert",
+        title: constants.ALERT_TEXT,
         message: "File name cannot be empty!",
         color: "red",
       });
@@ -73,7 +75,7 @@ const ModalForm = (
 
     if (!file) {
       notifications.show({
-        title: "Alert",
+        title: constants.ALERT_TEXT,
         message: "Please upload at least 1 file.",
         color: "red",
       });
@@ -83,11 +85,11 @@ const ModalForm = (
     const s3 = new AWS.S3({
       accessKeyId: import.meta.env.VITE_ACCESS_KEY,
       secretAccessKey: import.meta.env.VITE_SECRET_ACCESS_KEY,
-      region: "ap-southeast-2",
+      region: constants.REGION,
     });
 
     const params = {
-      Bucket: "dda-drive",
+      Bucket: constants.BUCKET_NAME,
       Key: file.name,
       Body: file,
     };
@@ -100,7 +102,7 @@ const ModalForm = (
           variables: {
             createFileInput: {
               fileName: filename,
-              ownerName: Cookies.get("username") || "Unknown",
+              ownerName: Cookies.get("username") || constants.UNKNOWN_USER,
               awsUrl: response.Location,
               tagIds: selectedTags,
             },
@@ -117,7 +119,7 @@ const ModalForm = (
           setFile(null);
         }
         notifications.show({
-          title: "Alert",
+          title: constants.ALERT_TEXT,
           message: "File Uploaded Successfully!",
           color: "green",
         });
@@ -125,7 +127,7 @@ const ModalForm = (
     } catch (error) {
       console.error("Error uploading file:", error);
       notifications.show({
-        title: "Alert",
+        title: constants.ALERT_TEXT,
         message: "Error uploading file. Please try again later.",
         color: "red",
       });
@@ -137,77 +139,67 @@ const ModalForm = (
   }, []);
 
   return (
-    <Group position="center">
-      <Modal
-        size="lg"
-        opened={opened}
-        onClose={close}
-        title="Upload Document"
-        centered
+    <Modal
+      size="lg"
+      opened={opened}
+      onClose={close}
+      title="Upload Document"
+      centered
+    >
+      <Dropzone
+        onDrop={handleDrop}
+        multiple={false}
+        onReject={(files) => console.log("rejected files", files)}
+        accept={{
+          "application/pdf": [], // Accepts PDF types Only
+        }}
+        {...props}
       >
-        <Dropzone
-          onDrop={handleDrop}
-          multiple={false}
-          onReject={(files) => console.log("rejected files", files)}
-          accept={{
-            "application/pdf": [], // Accepts PDF types Only
-          }}
-          {...props}
-        >
-          <Group
-            position="center"
-            spacing="xl"
-            style={{ minHeight: rem(220), pointerEvents: "none" }}
-          >
-            <Dropzone.Accept>
-              <IconUpload
-                size="3.2rem"
-                stroke={1.5}
-                color={
-                  theme.colors[theme.primaryColor][
-                    theme.colorScheme === "dark" ? 4 : 6
-                  ]
-                }
-              />
-            </Dropzone.Accept>
-            <Dropzone.Reject>
-              <IconX
-                size="3.2rem"
-                stroke={1.5}
-                color={theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]}
-              />
-            </Dropzone.Reject>
-            <Dropzone.Idle>
-              <IconFileDescription size="3.2rem" stroke={1.5} />
-            </Dropzone.Idle>
+        <Group position="center" spacing="xl" className={classes.group}>
+          <Dropzone.Accept>
+            <IconUpload
+              size="3.2rem"
+              stroke={1.5}
+              className={classes.iconUpload}
+            />
+          </Dropzone.Accept>
+          <Dropzone.Reject>
+            <IconX
+              size="3.2rem"
+              stroke={1.5}
+              color={theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]}
+            />
+          </Dropzone.Reject>
+          <Dropzone.Idle>
+            <IconFileDescription size="3.2rem" stroke={1.5} />
+          </Dropzone.Idle>
 
-            <div>
-              <Text size="xl" inline>
-                Drag PDFs here or click to select files
-              </Text>
-              <Text size="sm" color="dimmed" inline mt={7}>
-                Attach a file, each file should not exceed 5mb
-              </Text>
-            </div>
-          </Group>
-        </Dropzone>
-        <TextInput
-          value={filename}
-          placeholder="Your file name"
-          label="Rename your file (Optional)"
-          onChange={(e) => setFilename(e.target.value)}
-        />
-        <MultiSelect
-          data={displayTagData}
-          label="Category"
-          placeholder="Select zero or many tags"
-          onChange={(e) => setSelectedTags(e)}
-        />
-        <Button fullWidth mt={25} size="md" onClick={handleUpload}>
-          Upload File
-        </Button>
-      </Modal>
-    </Group>
+          <div>
+            <Text size="xl" inline>
+              Drag PDFs here or click to select files
+            </Text>
+            <Text size="sm" color="dimmed" inline mt={7}>
+              Attach a file, each file should not exceed 5mb
+            </Text>
+          </div>
+        </Group>
+      </Dropzone>
+      <TextInput
+        value={filename}
+        placeholder="Your file name"
+        label="Rename your file (Optional)"
+        onChange={(e) => setFilename(e.target.value)}
+      />
+      <MultiSelect
+        data={displayTagData}
+        label="Category"
+        placeholder="Select zero or many tags"
+        onChange={(e) => setSelectedTags(e)}
+      />
+      <Button fullWidth mt={25} size="md" onClick={handleUpload}>
+        Upload File
+      </Button>
+    </Modal>
   );
 };
 
