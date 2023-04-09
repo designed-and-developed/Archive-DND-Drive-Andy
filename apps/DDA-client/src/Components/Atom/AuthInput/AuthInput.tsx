@@ -1,10 +1,10 @@
 import { Button, Paper, PasswordInput, TextInput } from "@mantine/core";
-import { useState } from "react";
+import { useStyles } from "./styles";
 
 type AItype = {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  setUsername: (e: any) => void;
-  setPassword: (e: any) => void;
+  setUsername: (e: string) => void;
+  setPassword: (e: string) => void;
   type: string;
 };
 
@@ -14,11 +14,12 @@ const AuthInput = ({
   setPassword,
   type,
 }: AItype) => {
+  const { classes } = useStyles();
   return (
-    <Paper withBorder shadow="md" p={50} mt={30} radius="md">
+    <Paper withBorder shadow="md" className={classes.paper}>
       <form onSubmit={handleSubmit}>
         <TextInput
-          size="lg"
+        classNames={{label: classes.label}}
           label="Username"
           name="username"
           placeholder="cool_user_name"
@@ -26,16 +27,14 @@ const AuthInput = ({
           required
         />
         <PasswordInput
-          size="lg"
-          pt={10}
+          classNames={{label: classes.label}}
           label="Password"
           name="password"
           placeholder="your password"
           onChange={(e) => setPassword(e.target.value)}
           required
-          mt="md"
         />
-        <Button fullWidth mt={50} size="lg" type="submit">
+        <Button className={classes.button} type="submit">
           {type === "Register" ? "Signup" : "Login"}
         </Button>
       </form>

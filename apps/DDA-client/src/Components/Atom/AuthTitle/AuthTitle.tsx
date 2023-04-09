@@ -1,4 +1,5 @@
 import { Title, Text, Anchor } from "@mantine/core";
+import { useStyles } from "./styles";
 
 type ATtype = {
   type: string;
@@ -6,22 +7,20 @@ type ATtype = {
 };
 
 const AuthTitle = ({ type, toggle }: ATtype) => {
+  const { classes } = useStyles();
+
   return (
     <>
       <Title
-        align="center"
-        sx={(theme) => ({
-          fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-          fontWeight: 900,
-        })}
+        className={classes.title}
       >
         DND Drive {type}
       </Title>
-      <Text color="dimmed" size="m" align="center" mt={5}>
+      <Text className={classes.detailText}>
         {type === "Register"
           ? "Already have an account? "
           : "Don't have an account? "}
-        <Anchor size="sm" component="button" onClick={() => toggle()}>
+        <Anchor component="button" onClick={() => toggle()}>
           {type === "Register" ? "Login" : "Register"}
         </Anchor>
       </Text>
