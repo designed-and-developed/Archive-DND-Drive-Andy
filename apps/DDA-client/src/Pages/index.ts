@@ -1,2 +1,2 @@
-export { default as AuthPage } from "./AuthPage/AuthPage";
-export { default as Dashboard } from "./Dashboard/Dashboard";
+export * from "./AuthPage";
+export * from "./Dashboard";

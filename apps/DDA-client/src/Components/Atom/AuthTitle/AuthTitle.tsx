@@ -12,16 +12,15 @@ const AuthTitle = ({ type, toggle }: ATtype) => {
   return (
     <>
       <Title
-        align="center"
         className={classes.title}
       >
         DND Drive {type}
       </Title>
-      <Text color="dimmed" size="m" align="center" mt={5}>
+      <Text className={classes.detailText}>
         {type === "Register"
           ? "Already have an account? "
           : "Don't have an account? "}
-        <Anchor size="sm" component="button" onClick={() => toggle()}>
+        <Anchor component="button" onClick={() => toggle()}>
           {type === "Register" ? "Login" : "Register"}
         </Anchor>
       </Text>

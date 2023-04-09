@@ -1,2 +1,2 @@
-export {default as AuthInput} from "./AuthInput/AuthInput"
-export {default as AuthTitle} from "./AuthTitle/AuthTitle"
+export * from "./AuthInput"
+export * from "./AuthTitle"

@@ -4,8 +4,8 @@ import {
   Group,
   Modal,
   TextInput,
-  useMantineTheme,
   MultiSelect,
+  SelectItem,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
 import {
@@ -32,7 +32,6 @@ const ModalForm = (
   const [filename, setFilename] = useState<string>("");
   const [selectedTags, setSelectedTags] = useState<string[]>();
   const [file, setFile] = useState<File | null>();
-  const theme = useMantineTheme();
   const { classes } = useStyles();
 
   const [
@@ -53,9 +52,11 @@ const ModalForm = (
     },
   });
 
-  let displayTagData: any[] = [];
+  let displayTagData: (SelectItem | string)[] = [];
   tagsData?.findAllTag.forEach((tag) => {
-    displayTagData.push({ value: tag?.id, label: tag?.tagName });
+    if (tag) {
+      displayTagData.push({ value: tag.id, label: tag.tagName });
+    }
   });
 
   const handleDrop = (files: File[]) => {
@@ -140,7 +141,8 @@ const ModalForm = (
 
   return (
     <Modal
-      size="lg"
+      className={classes.modal}
+      classNames={{ inner: classes.inner, content: classes.content }}
       opened={opened}
       onClose={close}
       title="Upload Document"
@@ -155,30 +157,22 @@ const ModalForm = (
         }}
         {...props}
       >
-        <Group position="center" spacing="xl" className={classes.group}>
+        <Group className={classes.group}>
           <Dropzone.Accept>
-            <IconUpload
-              size="3.2rem"
-              stroke={1.5}
-              className={classes.iconUpload}
-            />
+            <IconUpload className={classes.iconUpload} />
           </Dropzone.Accept>
           <Dropzone.Reject>
-            <IconX
-              size="3.2rem"
-              stroke={1.5}
-              color={theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]}
-            />
+            <IconX className={classes.iconX} />
           </Dropzone.Reject>
           <Dropzone.Idle>
-            <IconFileDescription size="3.2rem" stroke={1.5} />
+            <IconFileDescription className={classes.iconFileDesc}/>
           </Dropzone.Idle>
 
           <div>
-            <Text size="xl" inline>
+            <Text className={classes.selectFileText}>
               Drag PDFs here or click to select files
             </Text>
-            <Text size="sm" color="dimmed" inline mt={7}>
+            <Text className={classes.instructionText}>
               Attach a file, each file should not exceed 5mb
             </Text>
           </div>
@@ -196,7 +190,7 @@ const ModalForm = (
         placeholder="Select zero or many tags"
         onChange={(e) => setSelectedTags(e)}
       />
-      <Button fullWidth mt={25} size="md" onClick={handleUpload}>
+      <Button onClick={handleUpload} className={classes.button}>
         Upload File
       </Button>
     </Modal>
