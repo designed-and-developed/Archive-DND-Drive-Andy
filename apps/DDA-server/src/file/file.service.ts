@@ -63,9 +63,32 @@ export class FileService {
     return successResp;
   }
 
-  async findAllFile(): Promise<FileResponse[]> {
-    const fileData = await this.fileRepository.find();
+  async findFiles(tagIds: string[]): Promise<FileResponse[]> {
+    if (tagIds && tagIds.length > 0) {
+      const fileWithTags = await this.fileRepository
+        .createQueryBuilder("file")
+        .leftJoinAndSelect("file.fileTags", "ft")
+        .where("ft.tagId IN (:...tagIds)", { tagIds })
+        .groupBy("file.id")
+        .having(`COUNT(DISTINCT ft.tagId) = ${tagIds.length}`)
+        .select("file")
+        .getMany();
 
-    return fileData;
+      // Prepare a tagNames string for the frontend
+      let tagNames: string[] = [];
+      for (let tagId of tagIds) {
+        const tag = await this.tagRepository.findOne({
+          where: { id: tagId },
+        });
+        tagNames.push(tag.tagName);
+      }
+
+      fileWithTags.forEach((file) => {
+        file.tagNames = tagNames.toString();
+      });
+
+      return fileWithTags;
+    }
+    return await this.fileRepository.find();
   }
 }
