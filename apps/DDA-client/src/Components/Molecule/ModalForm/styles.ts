@@ -18,7 +18,7 @@ export const useStyles = createStyles((theme) => ({
     stroke: "1.5"
   },
   iconFileDesc: {
-    width: "3.2rem",
+    width: "2rem",
     stroke: "1.5"
   },
   selectFileText: {
