@@ -52,6 +52,7 @@ export interface SuccessResponse {
 export interface IMutation {
     createFile(createFileInput: CreateFileInput): SuccessResponse | Promise<SuccessResponse>;
     updateDownloadCountByFile(fileId: string): SuccessResponse | Promise<SuccessResponse>;
+    deleteFile(fileId: string): SuccessResponse | Promise<SuccessResponse>;
     createTag(createTagInput: CreateTagInput): SuccessResponse | Promise<SuccessResponse>;
     createUser(userInput: UserInput): SuccessResponse | Promise<SuccessResponse>;
     login(userInput?: Nullable<UserInput>): Nullable<LoginResponse> | Promise<Nullable<LoginResponse>>;

@@ -107,10 +107,21 @@ export class FileService {
     const editedFile = await this.fileRepository.findOne({
       where: { id: fileId },
     });
-    console.log("edited file = ", editedFile);
     if (editedFile) {
       editedFile.downloadCount++;
       if (await this.fileRepository.save(editedFile)) response.success = true;
+    }
+    return response;
+  }
+  
+  async deleteFile(fileId: string): Promise<SuccessResponse> {
+    let response: SuccessResponse = { success: false };
+    const deletedFile = await this.fileRepository.findOne({
+      where: { id: fileId },
+    });
+    if (deletedFile) {
+      deletedFile.deleted = true;
+      if (await this.fileRepository.save(deletedFile)) response.success = true;
     }
     return response;
   }

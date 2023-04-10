@@ -35,6 +35,7 @@ type SuccessResponse {
 type Mutation {
   createFile(createFileInput: CreateFileInput!): SuccessResponse!
   updateDownloadCountByFile(fileId: String!): SuccessResponse!
+  deleteFile(fileId: String!): SuccessResponse!
 }
 
 type Query {
