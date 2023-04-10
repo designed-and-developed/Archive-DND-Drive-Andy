@@ -1,4 +1,4 @@
-import { Container, Paper, Table, Title } from "@mantine/core";
+import { Container, Paper, Table, Title, rem } from "@mantine/core";
 import { useEffect } from "react";
 import {
   FindFilesQuery,
@@ -98,7 +98,7 @@ const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
   ));
 
   return (
-    <Container size={1500} my={50}>
+    <div>
       <Paper shadow="xs" p="xl">
         <Title
           order={3}
@@ -112,7 +112,7 @@ const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
         <Table my={30} verticalSpacing="md">
           <thead>
             <tr>
-              <th style={{ paddingRight: "400px" }}>Name</th>
+              <th style={{ paddingRight: "300px" }}>Name</th>
               <th style={{ paddingRight: "100px" }}>Category</th>
               <th>Uploader</th>
               <th>Created At</th>
@@ -124,7 +124,7 @@ const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
           <tbody>{rows}</tbody>
         </Table>
       </Paper>
-    </Container>
+    </div>
   );
 };
 

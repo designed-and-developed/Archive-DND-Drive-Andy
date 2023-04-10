@@ -3,15 +3,18 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Flex, Group, Table } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { FilesTable, ModalForm } from "../../Components";
+import { FilesTable, ModalForm, TagDisplay } from "../../Components";
 import {
   useFindAllTagLazyQuery,
   useFindFilesLazyQuery,
 } from "../../generated/graphql";
+import { useStyles } from "./styles";
+import { ClassNames } from "@emotion/react";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
+  const { classes } = useStyles();
 
   const [
     executeFindAllTagsQuery,
@@ -27,60 +30,43 @@ const Dashboard = () => {
     },
   });
 
-  let displayTagData: any[] = [];
-  tagsData?.findAllTag.forEach((tag) => {
-    if (tag) {
-      displayTagData.push({ name: tag.tagName, id: tag.id });
-    }
-  });
-
-  const handleTagClick = (tagId: string) => {
-    executeFindFilesQuery({ variables: { tagIds: tagId } });
+  const handleLogout = () => {
+    Cookies.remove("username");
+    Cookies.remove("userId");
+    navigate("/");
   };
-
-  const rows = displayTagData.map((tag) => (
-    <tr key={tag.name} id={tag.name}>
-      <td onClick={() => handleTagClick(tag.id)}>{tag.name}</td>
-    </tr>
-  ));
 
   useEffect(() => {
     if (!Cookies.get("username")) navigate("/");
   }, []);
 
   return (
-    <Container size={1300} my={100}>
+    <div className={classes.pageContainer}>
       <ModalForm
         opened={opened}
         close={close}
         findAllTags={executeFindAllTagsQuery}
         tagsData={tagsData}
       />
-      <Flex
-        gap="lg"
-        justify="centre"
-        align="flex-start"
-        direction="row"
-        wrap="nowrap"
-      >
+
+      
+      <Button onClick={handleLogout} className={classes.button}>Logout</Button>
+      <h1 className={classes.title}>DND Drive</h1>
+
+      <div className={classes.flexContainer}>
         <FilesTable
           opened={opened}
           findFiles={executeFindFilesQuery}
           filesData={filesData}
         />
         <Group position="center">
-          <Table my={10} verticalSpacing="sm" highlightOnHover>
-            <thead>
-              <tr>
-                <th>Name</th>
-              </tr>
-            </thead>
-            <tbody>{rows}</tbody>
-          </Table>
-          <Button onClick={open}>Upload File</Button>
+          <TagDisplay tagsData={tagsData} findFiles={executeFindFilesQuery} />
+          <Button onClick={open} fullWidth>
+            Upload File
+          </Button>
         </Group>
-      </Flex>
-    </Container>
+      </div>
+    </div>
   );
 };
 
