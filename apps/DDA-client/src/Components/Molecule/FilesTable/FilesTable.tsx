@@ -1,17 +1,34 @@
 import { Container, Paper, Table, Title } from "@mantine/core";
 import { useEffect } from "react";
+import {
+  FindFilesQuery,
+  useUpdateDownloadCountByFileMutation,
+} from "../../../generated/graphql";
 
 type DFTtype = {
   opened: boolean;
   findFiles: () => void;
-  filesData: any;
+  filesData: FindFilesQuery | undefined;
 };
 
 const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
- 
   useEffect(() => {
     findFiles();
   }, [opened]);
+
+  const [
+    executeUpdateDownloadCount,
+    { data: tagsData, loading: tagsLoading, error: tagsError },
+  ] = useUpdateDownloadCountByFileMutation();
+
+  const handleIncrementDownload = (fileId: string) => {
+    executeUpdateDownloadCount({
+      variables: {
+        fileId: fileId,
+      },
+    });
+    findFiles();
+  };
 
   const rows = filesData?.findFiles.map((element: any) => (
     <tr key={element?.id}>
@@ -21,7 +38,9 @@ const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
       <td>{element?.createdAt.slice(0, 10)}</td>
       <td>{element?.downloadCount}</td>
       <td>
-        <a href={element?.awsUrl}>Download</a>
+        <a href={element?.awsUrl} onClick={() => handleIncrementDownload(element.id)}>
+          Download
+        </a>
       </td>
       <td>{"Delete?"}</td>
     </tr>

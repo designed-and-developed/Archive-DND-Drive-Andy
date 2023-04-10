@@ -1,0 +1,5 @@
+mutation UpdateDownloadCountByFile($fileId: String!) {
+  updateDownloadCountByFile(fileId: $fileId) {
+    success
+  }
+}

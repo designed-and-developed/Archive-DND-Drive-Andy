@@ -178,6 +178,13 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'LoginResponse', username: string, access_token: string } | null };
 
+export type UpdateDownloadCountByFileMutationVariables = Exact<{
+  fileId: Scalars['String'];
+}>;
+
+
+export type UpdateDownloadCountByFileMutation = { __typename?: 'Mutation', updateDownloadCountByFile: { __typename?: 'SuccessResponse', success: boolean } };
+
 export type FindAllTagQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -296,6 +303,39 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const UpdateDownloadCountByFileDocument = gql`
+    mutation UpdateDownloadCountByFile($fileId: String!) {
+  updateDownloadCountByFile(fileId: $fileId) {
+    success
+  }
+}
+    `;
+export type UpdateDownloadCountByFileMutationFn = Apollo.MutationFunction<UpdateDownloadCountByFileMutation, UpdateDownloadCountByFileMutationVariables>;
+
+/**
+ * __useUpdateDownloadCountByFileMutation__
+ *
+ * To run a mutation, you first call `useUpdateDownloadCountByFileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateDownloadCountByFileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateDownloadCountByFileMutation, { data, loading, error }] = useUpdateDownloadCountByFileMutation({
+ *   variables: {
+ *      fileId: // value for 'fileId'
+ *   },
+ * });
+ */
+export function useUpdateDownloadCountByFileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateDownloadCountByFileMutation, UpdateDownloadCountByFileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateDownloadCountByFileMutation, UpdateDownloadCountByFileMutationVariables>(UpdateDownloadCountByFileDocument, options);
+      }
+export type UpdateDownloadCountByFileMutationHookResult = ReturnType<typeof useUpdateDownloadCountByFileMutation>;
+export type UpdateDownloadCountByFileMutationResult = Apollo.MutationResult<UpdateDownloadCountByFileMutation>;
+export type UpdateDownloadCountByFileMutationOptions = Apollo.BaseMutationOptions<UpdateDownloadCountByFileMutation, UpdateDownloadCountByFileMutationVariables>;
 export const FindAllTagDocument = gql`
     query FindAllTag {
   findAllTag {
