@@ -81,6 +81,7 @@ const AuthForm = () => {
     } else if (loginData?.login?.access_token) {
       // Creates a login cookie
       Cookies.set("username", username, { expires: 7 });
+      Cookies.set("userId", loginData.login.userId, { expires: 7 })
       // Logs in the user, redirects to the dashboard
       navigate("/dashboard");
     }

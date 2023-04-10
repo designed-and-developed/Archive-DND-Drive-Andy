@@ -2,8 +2,12 @@ import { Container, Paper, Table, Title } from "@mantine/core";
 import { useEffect } from "react";
 import {
   FindFilesQuery,
+  useDeleteFileMutation,
   useUpdateDownloadCountByFileMutation,
 } from "../../../generated/graphql";
+import { notifications } from "@mantine/notifications";
+import * as constants from "../../../@constants/constants";
+import Cookies from "js-cookie";
 
 type DFTtype = {
   opened: boolean;
@@ -19,7 +23,20 @@ const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
   const [
     executeUpdateDownloadCount,
     { data: tagsData, loading: tagsLoading, error: tagsError },
-  ] = useUpdateDownloadCountByFileMutation();
+  ] = useUpdateDownloadCountByFileMutation({
+    onCompleted: () => {
+      findFiles();
+    },
+  });
+
+  const [
+    executeDeleteFile,
+    { data: deleteData, loading: deleteLoading, error: deleteError },
+  ] = useDeleteFileMutation({
+    onCompleted: () => {
+      findFiles();
+    },
+  });
 
   const handleIncrementDownload = (fileId: string) => {
     executeUpdateDownloadCount({
@@ -27,7 +44,36 @@ const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
         fileId: fileId,
       },
     });
-    findFiles();
+    notifications.show({
+      title: constants.ALERT_TEXT,
+      message: "File Download Started!",
+      color: "green",
+    });
+  };
+
+  const handleDelete = async (fileId: string) => {
+    const deleteResponse = await executeDeleteFile({
+      variables: {
+        fileId: fileId,
+        userId: Cookies.get("userId") || "",
+      },
+    });
+    if (deleteResponse) {
+      if (deleteResponse.data?.deleteFile.success == true) {
+        notifications.show({
+          title: constants.ALERT_TEXT,
+          message: "File Deleted!",
+          color: "green",
+        });
+      }
+      if (deleteResponse.data?.deleteFile.success == false) {
+        notifications.show({
+          title: constants.ALERT_TEXT,
+          message: "You can only delete your own file!",
+          color: "red",
+        });
+      }
+    }
   };
 
   const rows = filesData?.findFiles.map((element: any) => (
@@ -38,11 +84,16 @@ const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
       <td>{element?.createdAt.slice(0, 10)}</td>
       <td>{element?.downloadCount}</td>
       <td>
-        <a href={element?.awsUrl} onClick={() => handleIncrementDownload(element.id)}>
+        <a
+          href={element?.awsUrl}
+          onClick={() => handleIncrementDownload(element.id)}
+        >
           Download
         </a>
       </td>
-      <td>{"Delete?"}</td>
+      <td>
+        <a href="#" onClick={() => handleDelete(element.id)}>Delete?</a>
+      </td>
     </tr>
   ));
 

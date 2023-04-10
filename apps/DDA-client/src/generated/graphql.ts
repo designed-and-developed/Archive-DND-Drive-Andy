@@ -60,6 +60,7 @@ export type FileTag = {
 export type LoginResponse = {
   __typename?: 'LoginResponse';
   access_token: Scalars['String'];
+  userId: Scalars['String'];
   username: Scalars['String'];
 };
 
@@ -171,12 +172,20 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'SuccessResponse', success: boolean } };
 
+export type DeleteFileMutationVariables = Exact<{
+  fileId: Scalars['String'];
+  userId: Scalars['String'];
+}>;
+
+
+export type DeleteFileMutation = { __typename?: 'Mutation', deleteFile: { __typename?: 'SuccessResponse', success: boolean } };
+
 export type LoginMutationVariables = Exact<{
   userInput?: InputMaybe<UserInput>;
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'LoginResponse', username: string, access_token: string } | null };
+export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'LoginResponse', username: string, access_token: string, userId: string } | null };
 
 export type UpdateDownloadCountByFileMutationVariables = Exact<{
   fileId: Scalars['String'];
@@ -269,11 +278,46 @@ export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const DeleteFileDocument = gql`
+    mutation DeleteFile($fileId: String!, $userId: String!) {
+  deleteFile(fileId: $fileId, userId: $userId) {
+    success
+  }
+}
+    `;
+export type DeleteFileMutationFn = Apollo.MutationFunction<DeleteFileMutation, DeleteFileMutationVariables>;
+
+/**
+ * __useDeleteFileMutation__
+ *
+ * To run a mutation, you first call `useDeleteFileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteFileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteFileMutation, { data, loading, error }] = useDeleteFileMutation({
+ *   variables: {
+ *      fileId: // value for 'fileId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useDeleteFileMutation(baseOptions?: Apollo.MutationHookOptions<DeleteFileMutation, DeleteFileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteFileMutation, DeleteFileMutationVariables>(DeleteFileDocument, options);
+      }
+export type DeleteFileMutationHookResult = ReturnType<typeof useDeleteFileMutation>;
+export type DeleteFileMutationResult = Apollo.MutationResult<DeleteFileMutation>;
+export type DeleteFileMutationOptions = Apollo.BaseMutationOptions<DeleteFileMutation, DeleteFileMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($userInput: UserInput) {
   login(userInput: $userInput) {
     username
     access_token
+    userId
   }
 }
     `;
