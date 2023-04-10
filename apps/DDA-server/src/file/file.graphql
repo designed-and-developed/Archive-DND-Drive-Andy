@@ -7,7 +7,6 @@ type File {
   createdAt: Date!
   downloadCount: Int
   awsUrl: String
-  tagNames: String!
   deleted: Boolean!
   user: User
 }
@@ -19,7 +18,7 @@ type FileResponse {
   createdAt: Date!
   downloadCount: Int
   awsUrl: String
-  tagNames: String!
+  tagNames: String
   deleted: Boolean!
 }
 

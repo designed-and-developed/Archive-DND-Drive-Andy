@@ -31,7 +31,6 @@ export interface File {
     createdAt: DateTime;
     downloadCount?: Nullable<number>;
     awsUrl?: Nullable<string>;
-    tagNames: string;
     deleted: boolean;
     user?: Nullable<User>;
 }
@@ -43,7 +42,7 @@ export interface FileResponse {
     createdAt: DateTime;
     downloadCount?: Nullable<number>;
     awsUrl?: Nullable<string>;
-    tagNames: string;
+    tagNames?: Nullable<string>;
     deleted: boolean;
 }
 

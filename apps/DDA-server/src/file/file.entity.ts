@@ -29,9 +29,6 @@ export class FileEntity {
   @Column()
   awsUrl: string;
 
-  @Column({ default: "n/a" })
-  tagNames: string;
-
   @Column({ default: 0 })
   downloadCount: number;
 

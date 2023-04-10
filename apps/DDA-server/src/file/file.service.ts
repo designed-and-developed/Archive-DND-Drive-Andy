@@ -12,6 +12,8 @@ import {
 import { UserEntity } from "../user/user.entity";
 import { FileTagEntity } from "../file_tags/file_tag.entity";
 import { TagEntity } from "../tag/tag.entity";
+import { where } from "sequelize";
+import { async, of } from "rxjs";
 
 @Injectable()
 export class FileService {
@@ -63,32 +65,43 @@ export class FileService {
     return successResp;
   }
 
-  async findFiles(tagIds: string[]): Promise<FileResponse[]> {
+  async findFiles(tagIds: string[]): Promise<any[]> {
+    let queriedFiles: FileEntity[] = [];
+
     if (tagIds && tagIds.length > 0) {
-      const fileWithTags = await this.fileRepository
+      // Returns all files that matches the tagIds, each file only needs to match any one of the tagIds to be returned
+      const selectedFiles: FileEntity[] = await this.fileRepository
         .createQueryBuilder("file")
-        .leftJoinAndSelect("file.fileTags", "ft")
-        .where("ft.tagId IN (:...tagIds)", { tagIds })
+        .leftJoin("file.fileTags", "fft")
+        .leftJoin("fft.tag", "fftt")
+        .where("fft.tagId IN (:...tagIds)", { tagIds })
         .groupBy("file.id")
-        .having(`COUNT(DISTINCT ft.tagId) = ${tagIds.length}`)
+        .having(`COUNT(DISTINCT fft.tagId) = ${tagIds.length}`)
         .select("file")
         .getMany();
 
-      // Prepare a tagNames string for the frontend
-      let tagNames: string[] = [];
-      for (let tagId of tagIds) {
-        const tag = await this.tagRepository.findOne({
-          where: { id: tagId },
-        });
-        tagNames.push(tag.tagName);
-      }
-
-      fileWithTags.forEach((file) => {
-        file.tagNames = tagNames.toString();
-      });
-
-      return fileWithTags;
+      queriedFiles = selectedFiles;
+    } else {
+      queriedFiles = await this.fileRepository.find();
     }
-    return await this.fileRepository.find();
+
+    let responses = [];
+
+    for (let file of queriedFiles) {
+      const filetags = await this.fileTagRepository
+        .createQueryBuilder("file_tag")
+        .leftJoinAndSelect("file_tag.file", "file")
+        .leftJoinAndSelect("file_tag.tag", "tag")
+        .where("file.id = :id", { id: file.id })
+        .getMany();
+      const tagNames: string[] = [];
+      filetags.forEach((ft) => {
+        tagNames.push(ft.tag.tagName);
+      });
+      const response = { ...file, tagNames: tagNames.toString() };
+      responses.push(response);
+    }
+
+    return responses;
   }
 }
