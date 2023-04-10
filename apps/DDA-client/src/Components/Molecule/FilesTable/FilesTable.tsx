@@ -98,7 +98,7 @@ const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
   ));
 
   return (
-    <Container size={1200} my={100}>
+    <Container size={1500} my={50}>
       <Paper shadow="xs" p="xl">
         <Title
           order={3}
@@ -109,11 +109,11 @@ const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
         >
           <b>Documents </b>/ All
         </Title>
-        <Table my={50} verticalSpacing="md" highlightOnHover>
+        <Table my={30} verticalSpacing="md">
           <thead>
             <tr>
               <th style={{ paddingRight: "400px" }}>Name</th>
-              <th>Category</th>
+              <th style={{ paddingRight: "100px" }}>Category</th>
               <th>Uploader</th>
               <th>Created At</th>
               <th>Downloads</th>
