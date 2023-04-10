@@ -19,7 +19,6 @@ type FileResponse {
   downloadCount: Int
   awsUrl: String
   tagNames: String
-  deleted: Boolean!
 }
 
 input CreateFileInput {

@@ -43,7 +43,6 @@ export interface FileResponse {
     downloadCount?: Nullable<number>;
     awsUrl?: Nullable<string>;
     tagNames?: Nullable<string>;
-    deleted: boolean;
 }
 
 export interface SuccessResponse {

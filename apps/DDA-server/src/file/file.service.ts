@@ -72,6 +72,7 @@ export class FileService {
       // Returns all files that matches the tagIds, each file only needs to match any one of the tagIds to be returned
       const selectedFiles: FileEntity[] = await this.fileRepository
         .createQueryBuilder("file")
+        .orderBy("file.createdAt", "DESC")
         .leftJoin("file.fileTags", "fft")
         .leftJoin("fft.tag", "fftt")
         .where("fft.tagId IN (:...tagIds)", { tagIds })
@@ -82,11 +83,13 @@ export class FileService {
 
       queriedFiles = selectedFiles;
     } else {
-      queriedFiles = await this.fileRepository.find();
+      queriedFiles = await this.fileRepository.find({ order: { createdAt: 'DESC' } });
     }
 
-    let responses = [];
+    // Filters out all deleted files
+    queriedFiles = queriedFiles.filter((file) => !file.deleted)
 
+    let responses = [];
     for (let file of queriedFiles) {
       const filetags = await this.fileTagRepository
         .createQueryBuilder("file_tag")
@@ -104,4 +107,6 @@ export class FileService {
 
     return responses;
   }
+
+  
 }
