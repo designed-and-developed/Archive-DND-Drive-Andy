@@ -22,7 +22,7 @@ export class FileResolver {
   }
 
   @Mutation("deleteFile")
-  async deleteFile(@Args("fileId") fileId: string) {
-    return await this.fileService.deleteFile(fileId);
+  async deleteFile(@Args("fileId") fileId: string, @Args("userId") userId: string) {
+    return await this.fileService.deleteFile(fileId, userId);
   }
 }

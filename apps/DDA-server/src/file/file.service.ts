@@ -113,15 +113,19 @@ export class FileService {
     }
     return response;
   }
-  
-  async deleteFile(fileId: string): Promise<SuccessResponse> {
+
+  async deleteFile(fileId: string, userId: string): Promise<SuccessResponse> {
     let response: SuccessResponse = { success: false };
-    const deletedFile = await this.fileRepository.findOne({
+    const deletedFile: FileEntity = await this.fileRepository.findOne({
       where: { id: fileId },
+      relations: { user: true },
     });
     if (deletedFile) {
-      deletedFile.deleted = true;
-      if (await this.fileRepository.save(deletedFile)) response.success = true;
+      if (deletedFile.user.id == userId) {
+        deletedFile.deleted = true;
+        if (await this.fileRepository.save(deletedFile))
+          response.success = true;
+      }
     }
     return response;
   }
