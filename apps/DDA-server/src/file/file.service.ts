@@ -107,10 +107,25 @@ export class FileService {
     const editedFile = await this.fileRepository.findOne({
       where: { id: fileId },
     });
-    console.log("edited file = ", editedFile);
     if (editedFile) {
       editedFile.downloadCount++;
       if (await this.fileRepository.save(editedFile)) response.success = true;
+    }
+    return response;
+  }
+
+  async deleteFile(fileId: string, userId: string): Promise<SuccessResponse> {
+    let response: SuccessResponse = { success: false };
+    const deletedFile: FileEntity = await this.fileRepository.findOne({
+      where: { id: fileId },
+      relations: { user: true },
+    });
+    if (deletedFile) {
+      if (deletedFile.user.id == userId) {
+        deletedFile.deleted = true;
+        if (await this.fileRepository.save(deletedFile))
+          response.success = true;
+      }
     }
     return response;
   }

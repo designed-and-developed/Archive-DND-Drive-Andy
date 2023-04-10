@@ -20,4 +20,9 @@ export class FileResolver {
   async updateDownloadCountByFile(@Args("fileId") fileId: string) {
     return await this.fileService.updateDownloadCountByFile(fileId);
   }
+
+  @Mutation("deleteFile")
+  async deleteFile(@Args("fileId") fileId: string, @Args("userId") userId: string) {
+    return await this.fileService.deleteFile(fileId, userId);
+  }
 }
