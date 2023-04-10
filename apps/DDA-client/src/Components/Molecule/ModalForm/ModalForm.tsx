@@ -110,14 +110,12 @@ const ModalForm = (
           },
         });
         if (listUpdate) {
-          // Requery for updated database
-
-          // Close the modal
-          close();
           // Reset filename state
           setFilename("");
           // Reset file to null
           setFile(null);
+          // Reset selected tags
+          setSelectedTags([]);
         }
         notifications.show({
           title: constants.ALERT_TEXT,
@@ -165,7 +163,7 @@ const ModalForm = (
             <IconX className={classes.iconX} />
           </Dropzone.Reject>
           <Dropzone.Idle>
-            <IconFileDescription className={classes.iconFileDesc}/>
+            <IconFileDescription className={classes.iconFileDesc} />
           </Dropzone.Idle>
 
           <div>

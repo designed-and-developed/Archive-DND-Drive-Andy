@@ -1,0 +1,11 @@
+query FindFiles($tagIds: [String]) {
+  findFiles(tagIds: $tagIds) {
+    awsUrl
+    createdAt
+    downloadCount
+    fileName
+    id
+    ownerName
+    tagNames
+  }
+}

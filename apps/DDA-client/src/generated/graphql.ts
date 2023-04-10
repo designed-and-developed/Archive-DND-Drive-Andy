@@ -31,6 +31,7 @@ export type File = {
   __typename?: 'File';
   awsUrl?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
+  deleted: Scalars['Boolean'];
   downloadCount?: Maybe<Scalars['Int']>;
   fileName: Scalars['String'];
   id: Scalars['String'];
@@ -46,6 +47,7 @@ export type FileResponse = {
   fileName: Scalars['String'];
   id: Scalars['String'];
   ownerName: Scalars['String'];
+  tagNames?: Maybe<Scalars['String']>;
 };
 
 export type FileTag = {
@@ -66,7 +68,9 @@ export type Mutation = {
   createFile: SuccessResponse;
   createTag: SuccessResponse;
   createUser: SuccessResponse;
+  deleteFile: SuccessResponse;
   login?: Maybe<LoginResponse>;
+  updateDownloadCountByFile: SuccessResponse;
 };
 
 
@@ -85,16 +89,27 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationDeleteFileArgs = {
+  fileId: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+
 export type MutationLoginArgs = {
   userInput?: InputMaybe<UserInput>;
+};
+
+
+export type MutationUpdateDownloadCountByFileArgs = {
+  fileId: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
   file?: Maybe<File>;
-  findAllFile: Array<Maybe<FileResponse>>;
   findAllTag: Array<Maybe<Tag>>;
   findAllUser: Array<Maybe<User>>;
+  findFiles: Array<Maybe<FileResponse>>;
   tag?: Maybe<Tag>;
   user?: Maybe<User>;
 };
@@ -102,6 +117,11 @@ export type Query = {
 
 export type QueryFileArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryFindFilesArgs = {
+  tagIds?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 
@@ -167,6 +187,13 @@ export type FindAllUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindAllUserQuery = { __typename?: 'Query', findAllUser: Array<{ __typename?: 'User', id: string, password: string, username: string } | null> };
+
+export type FindFilesQueryVariables = Exact<{
+  tagIds?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+}>;
+
+
+export type FindFilesQuery = { __typename?: 'Query', findFiles: Array<{ __typename?: 'FileResponse', awsUrl?: string | null, createdAt: any, downloadCount?: number | null, fileName: string, id: string, ownerName: string, tagNames?: string | null } | null> };
 
 
 export const CreateFileDocument = gql`
@@ -340,3 +367,44 @@ export function useFindAllUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type FindAllUserQueryHookResult = ReturnType<typeof useFindAllUserQuery>;
 export type FindAllUserLazyQueryHookResult = ReturnType<typeof useFindAllUserLazyQuery>;
 export type FindAllUserQueryResult = Apollo.QueryResult<FindAllUserQuery, FindAllUserQueryVariables>;
+export const FindFilesDocument = gql`
+    query FindFiles($tagIds: [String]) {
+  findFiles(tagIds: $tagIds) {
+    awsUrl
+    createdAt
+    downloadCount
+    fileName
+    id
+    ownerName
+    tagNames
+  }
+}
+    `;
+
+/**
+ * __useFindFilesQuery__
+ *
+ * To run a query within a React component, call `useFindFilesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindFilesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindFilesQuery({
+ *   variables: {
+ *      tagIds: // value for 'tagIds'
+ *   },
+ * });
+ */
+export function useFindFilesQuery(baseOptions?: Apollo.QueryHookOptions<FindFilesQuery, FindFilesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindFilesQuery, FindFilesQueryVariables>(FindFilesDocument, options);
+      }
+export function useFindFilesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindFilesQuery, FindFilesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindFilesQuery, FindFilesQueryVariables>(FindFilesDocument, options);
+        }
+export type FindFilesQueryHookResult = ReturnType<typeof useFindFilesQuery>;
+export type FindFilesLazyQueryHookResult = ReturnType<typeof useFindFilesLazyQuery>;
+export type FindFilesQueryResult = Apollo.QueryResult<FindFilesQuery, FindFilesQueryVariables>;
