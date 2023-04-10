@@ -2,18 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { FileEntity } from "./file.entity";
 import { Repository } from "typeorm";
-import {
-  CreateFileInput,
-  FileResponse,
-  FileTag,
-  SuccessResponse,
-  User,
-} from "../graphql";
+import { CreateFileInput, SuccessResponse, User } from "../graphql";
 import { UserEntity } from "../user/user.entity";
 import { FileTagEntity } from "../file_tags/file_tag.entity";
 import { TagEntity } from "../tag/tag.entity";
-import { where } from "sequelize";
-import { async, of } from "rxjs";
 
 @Injectable()
 export class FileService {
@@ -83,11 +75,13 @@ export class FileService {
 
       queriedFiles = selectedFiles;
     } else {
-      queriedFiles = await this.fileRepository.find({ order: { createdAt: 'DESC' } });
+      queriedFiles = await this.fileRepository.find({
+        order: { createdAt: "DESC" },
+      });
     }
 
     // Filters out all deleted files
-    queriedFiles = queriedFiles.filter((file) => !file.deleted)
+    queriedFiles = queriedFiles.filter((file) => !file.deleted);
 
     let responses = [];
     for (let file of queriedFiles) {
@@ -108,5 +102,16 @@ export class FileService {
     return responses;
   }
 
-  
+  async updateDownloadCountByFile(fileId: string): Promise<SuccessResponse> {
+    let response: SuccessResponse = { success: false };
+    const editedFile = await this.fileRepository.findOne({
+      where: { id: fileId },
+    });
+    console.log("edited file = ", editedFile);
+    if (editedFile) {
+      editedFile.downloadCount++;
+      if (await this.fileRepository.save(editedFile)) response.success = true;
+    }
+    return response;
+  }
 }
