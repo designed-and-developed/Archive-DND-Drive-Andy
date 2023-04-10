@@ -7,6 +7,7 @@ type File {
   createdAt: Date!
   downloadCount: Int
   awsUrl: String
+  deleted: Boolean!
   user: User
 }
 
@@ -17,6 +18,7 @@ type FileResponse {
   createdAt: Date!
   downloadCount: Int
   awsUrl: String
+  tagNames: String
 }
 
 input CreateFileInput {
@@ -32,9 +34,10 @@ type SuccessResponse {
 
 type Mutation {
   createFile(createFileInput: CreateFileInput!): SuccessResponse!
+  updateDownloadCountByFile(fileId: String!): SuccessResponse!
 }
 
 type Query {
-  findAllFile: [FileResponse]!
+  findFiles(tagIds: [String]): [FileResponse]!
   file(id: ID!): File
 }

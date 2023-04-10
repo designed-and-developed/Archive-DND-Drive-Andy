@@ -31,6 +31,7 @@ export interface File {
     createdAt: DateTime;
     downloadCount?: Nullable<number>;
     awsUrl?: Nullable<string>;
+    deleted: boolean;
     user?: Nullable<User>;
 }
 
@@ -41,6 +42,7 @@ export interface FileResponse {
     createdAt: DateTime;
     downloadCount?: Nullable<number>;
     awsUrl?: Nullable<string>;
+    tagNames?: Nullable<string>;
 }
 
 export interface SuccessResponse {
@@ -49,13 +51,14 @@ export interface SuccessResponse {
 
 export interface IMutation {
     createFile(createFileInput: CreateFileInput): SuccessResponse | Promise<SuccessResponse>;
+    updateDownloadCountByFile(fileId: string): SuccessResponse | Promise<SuccessResponse>;
     createTag(createTagInput: CreateTagInput): SuccessResponse | Promise<SuccessResponse>;
     createUser(userInput: UserInput): SuccessResponse | Promise<SuccessResponse>;
     login(userInput?: Nullable<UserInput>): Nullable<LoginResponse> | Promise<Nullable<LoginResponse>>;
 }
 
 export interface IQuery {
-    findAllFile(): Nullable<FileResponse>[] | Promise<Nullable<FileResponse>[]>;
+    findFiles(tagIds?: Nullable<Nullable<string>[]>): Nullable<FileResponse>[] | Promise<Nullable<FileResponse>[]>;
     file(id: string): Nullable<File> | Promise<Nullable<File>>;
     findAllTag(): Nullable<Tag>[] | Promise<Nullable<Tag>[]>;
     tag(id: string): Nullable<Tag> | Promise<Nullable<Tag>>;

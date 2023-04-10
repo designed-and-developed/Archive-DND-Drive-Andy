@@ -11,8 +11,13 @@ export class FileResolver {
     return await this.fileService.createFile(createFileInput);
   }
 
-  @Query("findAllFile")
-  async findAllFile() {
-    return await this.fileService.findAllFile();
+  @Query("findFiles")
+  async findFiles(@Args("tagIds") tagIds: string[]) {
+    return await this.fileService.findFiles(tagIds);
+  }
+
+  @Mutation("updateDownloadCountByFile")
+  async updateDownloadCountByFile(@Args("fileId") fileId: string) {
+    return await this.fileService.updateDownloadCountByFile(fileId);
   }
 }

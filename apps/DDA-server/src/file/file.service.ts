@@ -2,13 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { FileEntity } from "./file.entity";
 import { Repository } from "typeorm";
-import {
-  CreateFileInput,
-  FileResponse,
-  FileTag,
-  SuccessResponse,
-  User,
-} from "../graphql";
+import { CreateFileInput, SuccessResponse, User } from "../graphql";
 import { UserEntity } from "../user/user.entity";
 import { FileTagEntity } from "../file_tags/file_tag.entity";
 import { TagEntity } from "../tag/tag.entity";
@@ -63,9 +57,61 @@ export class FileService {
     return successResp;
   }
 
-  async findAllFile(): Promise<FileResponse[]> {
-    const fileData = await this.fileRepository.find();
+  async findFiles(tagIds: string[]): Promise<any[]> {
+    let queriedFiles: FileEntity[] = [];
 
-    return fileData;
+    if (tagIds && tagIds.length > 0) {
+      // Returns all files that matches the tagIds, each file only needs to match any one of the tagIds to be returned
+      const selectedFiles: FileEntity[] = await this.fileRepository
+        .createQueryBuilder("file")
+        .orderBy("file.createdAt", "DESC")
+        .leftJoin("file.fileTags", "fft")
+        .leftJoin("fft.tag", "fftt")
+        .where("fft.tagId IN (:...tagIds)", { tagIds })
+        .groupBy("file.id")
+        .having(`COUNT(DISTINCT fft.tagId) = ${tagIds.length}`)
+        .select("file")
+        .getMany();
+
+      queriedFiles = selectedFiles;
+    } else {
+      queriedFiles = await this.fileRepository.find({
+        order: { createdAt: "DESC" },
+      });
+    }
+
+    // Filters out all deleted files
+    queriedFiles = queriedFiles.filter((file) => !file.deleted);
+
+    let responses = [];
+    for (let file of queriedFiles) {
+      const filetags = await this.fileTagRepository
+        .createQueryBuilder("file_tag")
+        .leftJoinAndSelect("file_tag.file", "file")
+        .leftJoinAndSelect("file_tag.tag", "tag")
+        .where("file.id = :id", { id: file.id })
+        .getMany();
+      const tagNames: string[] = [];
+      filetags.forEach((ft) => {
+        tagNames.push(ft.tag.tagName);
+      });
+      const response = { ...file, tagNames: tagNames.toString() };
+      responses.push(response);
+    }
+
+    return responses;
+  }
+
+  async updateDownloadCountByFile(fileId: string): Promise<SuccessResponse> {
+    let response: SuccessResponse = { success: false };
+    const editedFile = await this.fileRepository.findOne({
+      where: { id: fileId },
+    });
+    console.log("edited file = ", editedFile);
+    if (editedFile) {
+      editedFile.downloadCount++;
+      if (await this.fileRepository.save(editedFile)) response.success = true;
+    }
+    return response;
   }
 }
