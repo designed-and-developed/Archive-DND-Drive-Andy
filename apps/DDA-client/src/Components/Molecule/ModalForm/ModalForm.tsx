@@ -114,6 +114,8 @@ const ModalForm = (
           setFile(null);
           // Reset selected tags
           setSelectedTags([]);
+          // Close modal
+          close();
         }
         notifications.show({
           title: constants.ALERT_TEXT,
