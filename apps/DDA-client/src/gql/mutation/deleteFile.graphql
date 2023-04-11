@@ -1,0 +1,5 @@
+mutation DeleteFile($fileId: String!, $userId: String!) {
+  deleteFile(fileId: $fileId, userId: $userId) {
+    success
+  }
+}

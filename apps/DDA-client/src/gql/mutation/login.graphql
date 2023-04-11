@@ -2,5 +2,6 @@ mutation Login($userInput: UserInput) {
   login(userInput: $userInput) {
     username
     access_token
+    userId
   }
 }

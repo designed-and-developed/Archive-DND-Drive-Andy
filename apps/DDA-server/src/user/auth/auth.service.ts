@@ -42,7 +42,10 @@ export class AuthService {
 
   async login(userInput: UserInput) {
     try {
-      const user = await this.validateUser(userInput.username, userInput.password);
+      const user = await this.validateUser(
+        userInput.username,
+        userInput.password,
+      );
 
       if (!user) return null;
 
@@ -52,6 +55,7 @@ export class AuthService {
           sub: user.id,
         }),
         username: user.username,
+        userId: user.id,
       };
     } catch (err) {}
   }

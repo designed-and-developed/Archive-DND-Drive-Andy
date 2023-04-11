@@ -95,7 +95,7 @@ export class FileService {
       filetags.forEach((ft) => {
         tagNames.push(ft.tag.tagName);
       });
-      const response = { ...file, tagNames: tagNames.toString() };
+      const response = { ...file, tagNames: tagNames.join(', ') };
       responses.push(response);
     }
 
