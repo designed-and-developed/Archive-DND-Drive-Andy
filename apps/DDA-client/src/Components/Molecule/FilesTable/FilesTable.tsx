@@ -104,7 +104,7 @@ const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
 
   return (
     <div>
-      <Paper shadow="xs" p="xl">
+      <Paper shadow="sm" p="xl">
         <Title
           order={3}
           sx={(theme) => ({
@@ -114,8 +114,7 @@ const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
         >
           <b>Documents </b>/ All
         </Title>
-        <Table verticalSpacing="md" className={classe
-          .s.table}>
+        <Table verticalSpacing="md" className={classes.table}>
           <thead>
             <tr>
               <th>Name</th>
