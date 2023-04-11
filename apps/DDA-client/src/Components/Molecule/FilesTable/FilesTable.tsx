@@ -8,6 +8,7 @@ import {
 import { notifications } from "@mantine/notifications";
 import * as constants from "../../../@constants/constants";
 import Cookies from "js-cookie";
+import { useStyles } from "./styles";
 
 type DFTtype = {
   opened: boolean;
@@ -16,6 +17,8 @@ type DFTtype = {
 };
 
 const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
+  const { classes } = useStyles();
+
   useEffect(() => {
     findFiles();
   }, [opened]);
@@ -92,7 +95,9 @@ const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
         </a>
       </td>
       <td>
-        <a href="#" onClick={() => handleDelete(element.id)}>Delete?</a>
+        <a href="#" onClick={() => handleDelete(element.id)}>
+          Delete?
+        </a>
       </td>
     </tr>
   ));
@@ -109,11 +114,12 @@ const FilesTable = ({ opened, findFiles, filesData }: DFTtype) => {
         >
           <b>Documents </b>/ All
         </Title>
-        <Table my={30} verticalSpacing="md">
+        <Table verticalSpacing="md" className={classe
+          .s.table}>
           <thead>
             <tr>
-              <th style={{ paddingRight: "300px" }}>Name</th>
-              <th style={{ paddingRight: "100px" }}>Category</th>
+              <th>Name</th>
+              <th>Category</th>
               <th>Uploader</th>
               <th>Created At</th>
               <th>Downloads</th>

@@ -7,11 +7,11 @@ async function seed() {
   const tagService = app.get(TagService);
 
   const tags = [
-    { tagName: "Apple" },
-    { tagName: "Orange" },
-    { tagName: "Lemon" },
-    { tagName: "Pineapple" },
-    { tagName: "Grape" },
+    { tagName: "Floor Plans" },
+    { tagName: "Manuals" },
+    { tagName: "Blueprints" },
+    { tagName: "Receipts" },
+    { tagName: "Misc" },
   ];
 
   await Promise.all(tags.map(tag => tagService.createTag(tag)));
